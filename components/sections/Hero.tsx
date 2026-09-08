@@ -20,12 +20,10 @@ const roles = [
   "AI Engineer",
 ];
 const partners = [
-  { name: "Microsoft", src: "/microsoft.svg" },
-  { name: "DevNation", src: "/devnation.svg" },
-  { name: "Google", src: "/google.svg" },
-  { name: "Govt of Pakistan", src: "/govt-pakistan.svg" },
-  { name: "Punjab Information Technology Board", src: "/pitb.svg" },
-  { name: "P@SHA", src: "/pasha-icon.png" },
+  { name: "ShellShift", src: "/shellShift.svg", href: "https://shellshift.com/" },
+  { name: "NAVTTC", src: "/NAVTTC.svg", href: "https://www.youtube.com/@NavttcOfficial/shorts" },
+  { name: "Peak Solutions", src: "/peak-solutions.svg" },
+  { name: "Sovricsoft", src: "/sovricsoft-icon.svg" },
 ];
 const milestones = [
   {
@@ -46,19 +44,19 @@ const milestones = [
     year: 2022,
     value: 28,
     technologies: [
+      { name: "Python", src: "/python.svg" },
+      { name: "C++", src: "/cplusplus.svg" },
+    ],
+  },
+  {
+    year: 2023,
+    value: 50,
+    technologies: [
       { name: "Figma", src: "/figma.svg" },
       { name: "HTML5", src: "/html5.svg" },
       { name: "CSS3", src: "/css3.svg" },
       { name: "JavaScript", src: "/javascript.svg" },
       { name: "GitHub", src: "/github.svg" },
-    ],
-  },
-  {
-    year: 2023,
-    value: 45,
-    technologies: [
-      { name: "Python", src: "/python.svg" },
-      { name: "C++", src: "/cplusplus.svg" },
     ],
   },
   {
@@ -82,7 +80,7 @@ const milestones = [
     ],
   },
   {
-    year: 2027,
+    year: 2026,
     value: 96,
     technologies: [
       { name: "AI Automation", src: "/openai.svg" },
@@ -148,7 +146,8 @@ function TypewriterRole() {
   );
 }
 
-const heroDescription = "Full-Stack Software Engineer specializing in Agentic AI automation and high-impact applications. Building modern, scalable, and intelligent systems that deliver exceptional user experiences.";
+const heroDescription =
+  "Full-Stack Software Engineer specializing in Agentic AI automation and high-impact applications. Building modern, scalable, and intelligent systems that deliver exceptional user experiences.";
 
 function TypewriterDescription() {
   const [text, setText] = useState("");
@@ -163,7 +162,14 @@ function TypewriterDescription() {
     return () => window.clearInterval(timer);
   }, []);
 
-  return <>{text}<span className="typewriter-cursor" aria-hidden="true">_</span></>;
+  return (
+    <>
+      {text}
+      <span className="typewriter-cursor" aria-hidden="true">
+        _
+      </span>
+    </>
+  );
 }
 
 function handleGlowMove(event: MouseEvent<HTMLElement>) {
@@ -290,7 +296,7 @@ function Overview() {
                 viewBox="0 0 900 300"
                 className="h-[330px] w-full "
                 role="img"
-                aria-label="Career growth from 2020 to 2027"
+                aria-label="Career growth from 2020 to 2026"
               >
                 {[40, 100, 160, 220, 280].map((y) => (
                   <line
@@ -335,18 +341,10 @@ function Overview() {
                   milestone.technologies.map((technology, technologyIndex) => {
                     const x =
                       20 +
-                      ((milestone.year - 2020) / 7) * 860 +
+                      ((milestone.year - 2020) / 6) * 840 +
                       (technologyIndex -
-                        (milestone.technologies.length - 1) / 2) *
-                        21;
-                    const y =
-                      280 -
-                      (milestone.value / 100) * 252 -
-                      Math.abs(
-                        technologyIndex -
-                          (milestone.technologies.length - 1) / 2,
-                      ) *
-                        7;
+                        (milestone.technologies.length - 1) / 2) * 25;
+                    const y = 280 - (milestone.value / 100) * 252;
                     return (
                       <g
                         key={`${milestone.year}-${technology.name}`}
@@ -446,19 +444,22 @@ export default function Hero() {
               <h1 className="hero-reveal w-full font-display text-[clamp(2.65rem,6vw,4.75rem)] font-black leading-[0.94] tracking-[-0.06em] text-white lg:whitespace-nowrap">
                 Talha Rashid
               </h1>
-              <p className="h-[10.5rem] max-w-2xl overflow-hidden text-[clamp(0.98rem,2vw,1.25rem)] leading-relaxed text-zinc-400 sm:h-[8rem]"><TypewriterDescription /></p>
+              <p className="h-[10.5rem] max-w-2xl overflow-hidden text-[clamp(0.98rem,2vw,1.25rem)] leading-relaxed text-zinc-400 sm:h-[8rem]">
+                <TypewriterDescription />
+              </p>
               <div className="hero-actions flex w-full flex-wrap items-center justify-center gap-2 pt-4 lg:justify-start">
                 <a
                   href="#appointment"
                   className="inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-sm font-medium text-[#16151a] shadow-md shadow-white/10 transition hover:bg-[#F5F5F5] hover:text-black"
                 >
-                  <CalendarDays size={16} /> Book Appointment
+                  <CalendarDays size={16} /> Contact Us
                 </a>
                 <a
-                  href="#profile"
+                  href="/Talha%20Rashid%20Resume.pdf"
+                  download="Talha-Rashid-Resume.pdf"
                   className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/[0.02] px-4 py-2 text-sm font-medium text-white transition hover:border-[#F5F5F5] hover:bg-[#F5F5F5] hover:text-black"
                 >
-                  <UserRound size={16} /> Download Profile
+                  <UserRound size={16} /> Download Resume
                 </a>
               </div>
             </div>
@@ -468,24 +469,25 @@ export default function Hero() {
               Trusted By &amp; Certified Partner
             </div>
             <div className="hero-trusted-scroller relative overflow-hidden before:absolute before:inset-y-0 before:left-0 before:z-10 before:w-16 before:bg-gradient-to-r before:from-[#0c0c0f] before:to-transparent after:absolute after:inset-y-0 after:right-0 after:z-10 after:w-16 after:bg-gradient-to-l after:from-[#0c0c0f] after:to-transparent">
-              <div className="animate-marquee-trusted flex w-max items-center gap-5 py-2.5">
-                {[...partners, ...partners].map((partner, index) => (
-                  <div
-                    key={`${partner.name}-${index}`}
-                    className="flex shrink-0 items-center gap-3 rounded-xl border border-white/[0.12] bg-white/[0.035] px-4 py-2 transition hover:border-violet-400/40"
-                  >
-                    <span className="relative flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-white/20 bg-white p-1 shadow-sm">
-                      <Image
-                        src={partner.src}
-                        alt=""
-                        fill
-                        className="object-contain p-1"
-                        sizes="32px"
-                      />
-                    </span>
-                    <span className="whitespace-nowrap text-xs font-semibold text-zinc-300 sm:text-sm">
-                      {partner.name}
-                    </span>
+              <div className="animate-marquee-trusted flex w-max items-center py-2.5">
+                {[0, 1].map((copy) => (
+                  <div key={copy} className="mr-5 flex shrink-0 items-center gap-5">
+                    {partners.map((partner) => (
+                      <a
+                        key={`${partner.name}-${copy}`}
+                        href={partner.href}
+                        target={partner.href ? "_blank" : undefined}
+                        rel={partner.href ? "noreferrer" : undefined}
+                        className="flex shrink-0 items-center gap-3 rounded-xl border border-white/[0.12] bg-white/[0.035] px-4 py-2 transition hover:border-violet-400/40"
+                      >
+                        <span className="relative flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-white/20 bg-white p-1 shadow-sm">
+                          <Image src={partner.src} alt="" fill className="object-contain p-1" sizes="32px" />
+                        </span>
+                        <span className="whitespace-nowrap text-xs font-semibold text-zinc-300 sm:text-sm">
+                          {partner.name}
+                        </span>
+                      </a>
+                    ))}
                   </div>
                 ))}
               </div>

@@ -209,8 +209,8 @@ export default function Navbar() {
           {navLinks(true)}
         </nav>
         <div className="shrink-0 space-y-3 border-t border-white/[0.1] p-4">
-          <button type="button" className="h-11 w-full rounded-full border border-white/[0.16] text-sm font-semibold text-white transition hover:border-white/[0.28] hover:bg-white/[0.06]">Download Profile</button>
-          <button type="button" className="h-11 w-full rounded-full bg-white text-sm font-medium text-[#16151a] transition hover:bg-zinc-200">Book Appointment</button>
+          <a href="/Talha%20Rashid%20Resume.pdf" download="Talha-Rashid-Resume.pdf" className="flex h-11 w-full items-center justify-center rounded-full border border-white/[0.16] text-sm font-semibold text-white transition hover:border-white/[0.28] hover:bg-white/[0.06]">Download Resume</a>
+          <button type="button" className="h-11 w-full rounded-full bg-white text-sm font-medium text-[#16151a] transition hover:bg-zinc-200">Contact Us</button>
         </div>
       </aside>
     </header>

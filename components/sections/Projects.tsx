@@ -1,100 +1,122 @@
 "use client";
 
 import Image from "next/image";
-import { BookOpen, ChevronDown, ExternalLink } from "lucide-react";
+import { BookOpen, ChevronDown, ExternalLink, GitBranch } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import type { MouseEvent } from "react";
 
 type Technology = { name: string; icon: string };
 type Project = {
   name: string;
+  slug: string;
   category: string;
   description: string;
   logo: string;
+  logoImage?: string;
   logoClass: string;
   technologies: Technology[];
   website: string;
+  repository: string;
+  isPrivate?: boolean;
 };
 
-const categories = [
-  "All", "Healthcare", "Entertainment", "Marketplace", "Education", "Non-Profit",
-  "Government", "Logistics", "E-commerce", "Lifestyle", "Marketing", "Developer Tools",
-];
+const categories = ["All", "Business Website", "E-commerce", "Music", "Entertainment", "Travel", "Frontend Web Application", "Media Browsing"];
 
 const projects: Project[] = [
   {
-    name: "DigiHomeo",
-    category: "Healthcare",
-    description: "AI-powered clinical decision support for doctors, assisting in case analysis and medical insights.",
-    logo: "✦",
-    logoClass: "text-[#55b94c]",
-    technologies: [
-      { name: "Flutter", icon: "/react.svg" }, { name: "Firebase", icon: "/googlecloud.svg" },
-      { name: "Google Cloud", icon: "/googlecloud.svg" }, { name: "AI", icon: "/openai.svg" },
-    ],
-    website: "#projects",
-  },
-  {
-    name: "Pediatric Calculator",
-    category: "Healthcare",
-    description: "Pediatric tool providing quick, reliable medical estimates and reference support for providers.",
-    logo: "⌁",
-    logoClass: "text-[#c27aff]",
-    technologies: [
-      { name: "HTML5", icon: "/html5.svg" }, { name: "CSS3", icon: "/css3.svg" },
-      { name: "JavaScript", icon: "/javascript.svg" }, { name: "React", icon: "/react.svg" },
-    ],
-    website: "#projects",
-  },
-  {
-    name: "IPTV",
+    name: "YouTube Clone",
+    slug: "streamly",
     category: "Entertainment",
-    description: "Modern IPTV PWA for live news, sports, cinema, and international broadcasts with an HLS player.",
-    logo: "▣",
-    logoClass: "text-[#c27aff]",
+    description: "A browser-based video discovery and watch experience with search, categories, recommendations, and YouTube API integration.",
+    logo: "▶",
+    logoClass: "text-[#ff0033]",
     technologies: [
-      { name: "Next.js", icon: "/nextdotjs.svg" }, { name: "React", icon: "/react.svg" },
+      { name: "HTML5", icon: "/html5.svg" },
+      { name: "CSS3", icon: "/css3.svg" },
       { name: "JavaScript", icon: "/javascript.svg" },
+      { name: "YouTube API", icon: "/google.svg" },
+      { name: "Lucide Icons", icon: "/lucid-icon-logo.svg" },
     ],
-    website: "#projects",
+    website: "https://talharashid3981.github.io/youtube-clone/",
+    repository: "https://github.com/talharashid3981/youtube-clone",
   },
   {
-    name: "OpenListings",
-    category: "Marketplace",
-    description: "Community marketplace for products, services, and local opportunities with secure features.",
-    logo: "⌂",
-    logoClass: "text-[#5fc7ff]",
+    name: "Spotify Clone",
+    slug: "spotify-clone",
+    category: "Music",
+    description: "A responsive music discovery interface with live track search and browser-based audio preview playback.",
+    logo: "S",
+    logoImage: "/spotify.svg",
+    logoClass: "text-[#1ed760]",
     technologies: [
-      { name: "Next.js", icon: "/nextdotjs.svg" }, { name: "React", icon: "/react.svg" },
-      { name: "Node.js", icon: "/nodejs.svg" }, { name: "Google Cloud", icon: "/googlecloud.svg" },
+      { name: "HTML5", icon: "/html5.svg" },
+      { name: "CSS3", icon: "/css3.svg" },
+      { name: "JavaScript", icon: "/javascript.svg" },
+      { name: "iTunes Search API", icon: "/google.svg" },
+      { name: "HTML5 Audio API", icon: "/file.svg" },
     ],
-    website: "#projects",
+    website: "https://talharashid3981.github.io/Spotify-Clone/",
+    repository: "https://github.com/talharashid3981/Spotify-Clone",
   },
   {
-    name: "MRC Digital CRM",
-    category: "Education",
-    description: "Global CRM and web portal for study abroad consulting, powering streamlined operations.",
-    logo: "M",
-    logoClass: "text-[#c27aff]",
+    name: "FickleFlight",
+    slug: "fickleflight",
+    category: "Travel",
+    description: "A responsive travel discovery interface for finding flights, hotels, destinations, holidays, and travel offers.",
+    logo: "F",
+    logoImage: "/flight.svg",
+    logoClass: "text-[#5d8cff]",
     technologies: [
-      { name: "Flutter", icon: "/react.svg" }, { name: "Dart", icon: "/javascript.svg" },
-      { name: "Firebase", icon: "/googlecloud.svg" }, { name: "Google Cloud", icon: "/googlecloud.svg" },
+      { name: "React 19", icon: "/react.svg" },
+      { name: "JavaScript", icon: "/javascript.svg" },
+      { name: "Vite", icon: "/file.svg" },
+      { name: "React Router", icon: "/react.svg" },
+      { name: "CSS3", icon: "/css3.svg" },
     ],
-    website: "#projects",
+    website: "https://fickle-flight-project-fkq5-omega.vercel.app/",
+    repository: "https://github.com/talharashid3981/FickleFlight-Project",
   },
   {
-    name: "Community Support Platform",
-    category: "Non-Profit",
-    description: "A shared-experience platform supporting communities around trauma, addiction, and mental health.",
-    logo: "♥",
-    logoClass: "text-[#65c95a]",
+    name: "AIH E-Commerce Platform",
+    slug: "aih",
+    category: "E-commerce",
+    description: "A full-stack footwear commerce platform with customer shopping, order management, inventory, and administrative operations.",
+    logo: "A",
+    logoImage: "/aih.svg",
+    logoClass: "text-[#eb5b32]",
     technologies: [
-      { name: "HTML5", icon: "/html5.svg" }, { name: "CSS3", icon: "/css3.svg" },
-      { name: "JavaScript", icon: "/javascript.svg" }, { name: "GitHub", icon: "/github.svg" },
+      { name: "React", icon: "/react.svg" },
+      { name: "Vite", icon: "/file.svg" },
+      { name: "Node.js", icon: "/nodejs.svg" },
+      { name: "Express.js", icon: "/javascript.svg" },
+      { name: "MongoDB", icon: "/mongodb.svg" },
+      { name: "Cloudinary", icon: "/googlecloud.svg" },
     ],
-    website: "#projects",
+    website: "https://aih-eight.vercel.app/",
+    repository: "",
+    isPrivate: true,
+  },
+  {
+    name: "Riyadh Repairing Service",
+    slug: "riyadh-repairing-service",
+    category: "Business Website",
+    description: "A bilingual service website for appliance repair discovery, customer enquiries, and local business visibility.",
+    logo: "R",
+    logoImage: "/riyadreparingservice.svg",
+    logoClass: "text-[#e7a62f]",
+    technologies: [
+      { name: "React 19", icon: "/react.svg" },
+      { name: "i18n", icon: "/i18n.svg" },
+      { name: "EmailJS", icon: "/google.svg" },
+      { name: "SEO", icon: "/globe.svg" },
+    ],
+    website: "https://riyadhrepairingservice.com/",
+    repository: "",
+    isPrivate: true,
   },
 ];
+
+const orderedProjects = [projects[4], projects[3], projects[2], projects[1], projects[0]];
 
 export default function Projects() {
   const [activeCategory, setActiveCategory] = useState("All");
@@ -124,9 +146,7 @@ export default function Projects() {
     event.currentTarget.style.setProperty("--mouse-y", `${event.clientY - bounds.top}px`);
   };
 
-  const filteredProjects = activeCategory === "All"
-    ? projects
-    : projects.filter((project) => project.category === activeCategory);
+  const filteredProjects = activeCategory === "All" ? orderedProjects : orderedProjects.filter((project) => project.category === activeCategory);
 
   return (
     <section id="projects" className="relative z-10 w-full scroll-mt-24 px-4 pb-24 pt-16 sm:px-8 md:pt-24">
@@ -134,29 +154,14 @@ export default function Projects() {
         <div ref={headingRef} className="relative mb-6 flex w-full justify-center overflow-visible py-4 text-center md:mb-10">
           <div className="relative -m-6 inline-flex items-center justify-center p-6 font-display text-[clamp(2rem,7.5vw,4.5rem)] font-black uppercase leading-none tracking-wider md:text-[clamp(4rem,7vw,7.5rem)] md:tracking-widest">
             <span className="section-outline-title whitespace-nowrap" aria-hidden="true">Projects</span>
-            <span
-              className="section-outline-title-active absolute inset-0 flex items-center justify-center whitespace-nowrap"
-              aria-hidden="true"
-              style={{
-                clipPath: `inset(0 ${35 - headingProgress * 35}% 0 ${headingProgress * 35}%)`,
-                maskImage: `linear-gradient(to right, transparent 0%, transparent ${Math.max(0, headingProgress * 35 - 7)}%, black ${headingProgress * 35}%, black ${65 + headingProgress * 35}%, transparent ${Math.min(100, 72 + headingProgress * 35)}%, transparent 100%)`,
-                WebkitMaskImage: `linear-gradient(to right, transparent 0%, transparent ${Math.max(0, headingProgress * 35 - 7)}%, black ${headingProgress * 35}%, black ${65 + headingProgress * 35}%, transparent ${Math.min(100, 72 + headingProgress * 35)}%, transparent 100%)`,
-              }}
-            >Projects</span>
+            <span className="section-outline-title-active absolute inset-0 flex items-center justify-center whitespace-nowrap" aria-hidden="true" style={{ clipPath: `inset(0 ${35 - headingProgress * 35}% 0 ${headingProgress * 35}%)`, maskImage: `linear-gradient(to right, transparent 0%, transparent ${Math.max(0, headingProgress * 35 - 7)}%, black ${headingProgress * 35}%, black ${65 + headingProgress * 35}%, transparent ${Math.min(100, 72 + headingProgress * 35)}%, transparent 100%)`, WebkitMaskImage: `linear-gradient(to right, transparent 0%, transparent ${Math.max(0, headingProgress * 35 - 7)}%, black ${headingProgress * 35}%, black ${65 + headingProgress * 35}%, transparent ${Math.min(100, 72 + headingProgress * 35)}%, transparent 100%)` }}>Projects</span>
           </div>
         </div>
 
         <div className="space-y-6">
           <div className="flex flex-wrap gap-2" role="tablist" aria-label="Project categories">
             {categories.map((category) => (
-              <button
-                key={category}
-                type="button"
-                role="tab"
-                aria-selected={activeCategory === category}
-                onClick={() => setActiveCategory(category)}
-                className={`project-filter rounded-lg border px-2.5 py-1 text-xs font-semibold transition-all ${activeCategory === category ? "project-filter-active border-white bg-white text-black" : "border-white/[0.16] bg-white/[0.035] text-zinc-300 hover:border-white/[0.35] hover:bg-white/[0.09] hover:text-white"}`}
-              >
+              <button key={category} type="button" role="tab" aria-selected={activeCategory === category} onClick={() => setActiveCategory(category)} className={`project-filter rounded-lg border px-2.5 py-1 text-xs font-semibold transition-all ${activeCategory === category ? "project-filter-active border-white bg-white text-black" : "border-white/[0.16] bg-white/[0.035] text-zinc-300 hover:border-white/[0.35] hover:bg-white/[0.09] hover:text-white"}`}>
                 {category}
               </button>
             ))}
@@ -176,17 +181,16 @@ export default function Projects() {
                   </div>
                 </div>
                 <div className="relative z-10 mt-5 flex items-center gap-2.5">
-                  <span className={`flex h-7 w-7 items-center justify-center rounded-lg bg-white text-lg font-bold ${project.logoClass}`}>{project.logo}</span>
+                  <span className={`relative flex h-7 w-7 items-center justify-center rounded-lg bg-white p-1 text-lg font-bold ${project.logoClass}`}>{project.logoImage ? <Image src={project.logoImage} alt={`${project.name} logo`} fill sizes="28px" className="object-contain p-1" /> : project.logo}</span>
                   <h2 className="font-display text-lg font-semibold text-white">{project.name}</h2>
                 </div>
                 <p className="relative z-10 mt-3 line-clamp-3 font-sans text-sm leading-relaxed text-zinc-400">{project.description}</p>
                 <div className="relative z-10 mt-auto flex flex-col gap-2 pt-5">
-                  <a href="#projects" className="project-case-study inline-flex items-center justify-center gap-2 rounded-lg border border-[#494949] bg-[#202020] px-3 py-2 text-xs font-semibold text-[#E5E5E5] transition hover:border-white hover:bg-white hover:text-black">
-                    <BookOpen size={14} /> Read Case Study
-                  </a>
-                  <a href={project.website} className="project-visit inline-flex items-center justify-center gap-2 rounded-lg border border-[#282828] bg-[#121212] px-3 py-2 text-xs font-semibold text-white transition hover:border-[#3a3a3a] hover:bg-white/10 hover:text-white">
-                    <ExternalLink size={14} /> Visit Website
-                  </a>
+                  <a href={`/project/${project.slug}`} className="project-case-study inline-flex items-center justify-center gap-2 rounded-lg border border-[#494949] bg-[#202020] px-3 py-2 text-xs font-semibold text-[#E5E5E5] transition hover:border-white hover:bg-white hover:text-black"><BookOpen size={14} /> Read Case Study</a>
+                  <div className="grid grid-cols-2 gap-2">
+                    <a href={project.website} target="_blank" rel="noreferrer" className={`project-visit inline-flex items-center justify-center gap-2 rounded-lg border border-[#282828] bg-[#121212] px-2 py-2 text-xs font-semibold text-white transition hover:border-[#3a3a3a] hover:bg-white/10 hover:text-white ${project.isPrivate ? "col-span-2" : ""}`}><ExternalLink size={14} /> Live Demo</a>
+                    {!project.isPrivate && <a href={project.repository} target="_blank" rel="noreferrer" className="project-visit inline-flex items-center justify-center gap-2 rounded-lg border border-[#282828] bg-[#121212] px-2 py-2 text-xs font-semibold text-white transition hover:border-[#3a3a3a] hover:bg-white/10 hover:text-white"><GitBranch size={14} /> GitHub</a>}
+                  </div>
                 </div>
               </article>
             ))}
