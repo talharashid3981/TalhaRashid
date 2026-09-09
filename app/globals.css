@@ -519,6 +519,7 @@ html.light .profile-ground-shadow { background: rgba(63, 63, 70, 0.28); opacity:
 .case-study-project-logo { display: grid; width: 4.5rem; height: 4.5rem; place-items: center; flex: 0 0 auto; overflow: hidden; border: 1px solid var(--border); border-radius: 1rem; background: var(--card); box-shadow: 0 5px 16px rgb(0 0 0 / .07); }
 .case-study-project-logo img { position: static !important; width: 100% !important; height: 100% !important; max-width: 100%; max-height: 100%; object-fit: contain; }
 .case-study-project-logo span { color: #65bf48; font-size: 3.4rem; line-height: 1; transform: rotate(-25deg); }
+.flowcodify-logo span { color: #22c55e; font-family: var(--font-poppins), sans-serif; font-size: 2rem; font-weight: 800; line-height: 1; transform: none; }
 .repair-logo span { color: #e7a62f; font: 800 2rem var(--font-poppins, sans-serif); transform: none; }
 .case-study-header h1 { font: 700 clamp(2rem, 4vw, 3rem)/1.05 var(--font-poppins, sans-serif); letter-spacing: -.04em; }
 .case-study-header p, .case-study-section > p, .case-study-live p, .case-study-cta p { color: var(--muted-foreground); line-height: 1.65; }

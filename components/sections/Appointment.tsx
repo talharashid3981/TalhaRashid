@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, CalendarDays, CheckCircle2, CircleCheck, Mail, UserRound } from "lucide-react";
+import { ArrowRight, CheckCircle2, CircleCheck, Mail, UserRound } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import type { FormEvent, MouseEvent } from "react";
 
@@ -51,7 +51,7 @@ export default function Appointment() {
       <div className="mx-auto max-w-5xl">
         <div ref={headingRef} className="relative mb-8 flex w-full justify-center overflow-visible py-4 text-center md:mb-12">
           <div className="relative -m-6 inline-flex items-center justify-center p-6 font-display text-[clamp(2rem,7.5vw,4.5rem)] font-black uppercase leading-none tracking-wider md:text-[clamp(4rem,7vw,7.5rem)] md:tracking-widest">
-            <span className="section-outline-title whitespace-nowrap" aria-hidden="true">Appointment</span>
+            <span className="section-outline-title whitespace-nowrap" aria-hidden="true">Contact</span>
             <span
               className="section-outline-title-active absolute inset-0 flex items-center justify-center whitespace-nowrap"
               aria-hidden="true"
@@ -60,25 +60,25 @@ export default function Appointment() {
                 maskImage: `linear-gradient(to right, transparent 0%, transparent ${Math.max(0, headingProgress * 35 - 7)}%, black ${headingProgress * 35}%, black ${65 + headingProgress * 35}%, transparent ${Math.min(100, 72 + headingProgress * 35)}%, transparent 100%)`,
                 WebkitMaskImage: `linear-gradient(to right, transparent 0%, transparent ${Math.max(0, headingProgress * 35 - 7)}%, black ${headingProgress * 35}%, black ${65 + headingProgress * 35}%, transparent ${Math.min(100, 72 + headingProgress * 35)}%, transparent 100%)`,
               }}
-            >Appointment</span>
+            >Contact</span>
           </div>
         </div>
 
         <div className="mb-14 max-w-4xl">
-          <h2 className="font-display text-[clamp(1.75rem,4vw,2.75rem)] font-bold leading-tight text-white">Let&apos;s build something great together</h2>
-          <p className="mt-4 max-w-2xl font-sans text-base leading-relaxed text-zinc-400 sm:text-lg">Ready to take your project to the next level? Book a discovery call or a consultation session below. I usually reply within 24 hours for direct messages.</p>
+          <h2 className="font-display text-[clamp(1.75rem,4vw,2.75rem)] font-bold leading-tight text-white">Let&apos;s connect and build something great</h2>
+          <p className="mt-4 max-w-2xl font-sans text-base leading-relaxed text-zinc-400 sm:text-lg">Have a project idea, collaboration opportunity, or question? Send me a message with the details and I&apos;ll get back to you within 24 hours.</p>
         </div>
 
         <div onMouseMove={handlePanelMove} className="appointment-panel pointer-glow-card relative overflow-hidden rounded-2xl border border-[#212121] bg-[#0A0A0A]">
           <div className="border-b border-white/[0.1] px-4 py-5 sm:px-6">
-            <h3 className="flex items-center gap-2 font-display text-xl font-semibold text-white sm:text-2xl"><CalendarDays size={23} strokeWidth={1.7} />Schedule an Appointment</h3>
-            <p className="mt-1 text-sm text-zinc-400 sm:text-base">Provide your details to get started</p>
+            <h3 className="flex items-center gap-2 font-display text-xl font-semibold text-white sm:text-2xl"><Mail size={23} strokeWidth={1.7} />Send a Message</h3>
+            <p className="mt-1 text-sm text-zinc-400 sm:text-base">Tell me a little about how I can help</p>
           </div>
           {submitted ? (
             <div className="flex min-h-[330px] flex-col items-center justify-center px-6 text-center">
               <CheckCircle2 size={42} className="text-emerald-400" />
-              <h3 className="mt-4 font-display text-xl font-semibold text-white">Request received</h3>
-              <p className="mt-2 max-w-md text-sm leading-relaxed text-zinc-400">Thanks for reaching out. I&apos;ll review your details and get back to you within 24 hours.</p>
+              <h3 className="mt-4 font-display text-xl font-semibold text-white">Message received</h3>
+              <p className="mt-2 max-w-md text-sm leading-relaxed text-zinc-400">Thanks for reaching out. I&apos;ll review your message and get back to you within 24 hours.</p>
               <button type="button" onClick={() => setSubmitted(false)} className="mt-6 rounded-lg border border-white/[0.18] px-4 py-2 text-sm font-semibold text-zinc-200 transition hover:bg-white/10">Send another request</button>
             </div>
           ) : (
@@ -88,8 +88,8 @@ export default function Appointment() {
                 <label className="space-y-2 text-sm font-semibold text-zinc-300"><span className="flex items-center gap-2"><Mail size={15} />Email Address</span><input required name="email" type="email" placeholder="john@example.com" className="appointment-input" /></label>
               </div>
               <label className="space-y-2 text-sm font-semibold text-zinc-300"><span className="flex items-center gap-2 text-[#25D366]"><WhatsAppIcon size={17} /><span className="text-zinc-300">WhatsApp Number</span></span><span className="flex gap-2"><span className="appointment-country flex h-12 w-24 items-center justify-center rounded-lg border border-[#494949] bg-[#202020] text-sm text-white">+92</span><input required name="phone" type="tel" placeholder="3XX XXXXXXX" className="appointment-input min-w-0 flex-1" /></span></label>
-              <label className="space-y-2 text-sm font-semibold text-zinc-300"><span className="flex items-center gap-2"><CircleCheck size={15} />Agenda / What should we discuss?</span><textarea required name="agenda" rows={1} placeholder="Briefly describe your project or goal..." className="appointment-input min-h-12 resize-y" /></label>
-              <button type="submit" className="appointment-submit mt-1 inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-[#d9d9d9] text-sm font-semibold text-black transition hover:bg-white">Continue to Schedule <ArrowRight size={17} /></button>
+              <label className="space-y-2 text-sm font-semibold text-zinc-300"><span className="flex items-center gap-2"><CircleCheck size={15} />Message / Project Details</span><textarea required name="message" rows={4} placeholder="Tell me about your project, idea, or question..." className="appointment-input min-h-12 resize-y" /></label>
+              <button type="submit" className="appointment-submit mt-1 inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-[#d9d9d9] text-sm font-semibold text-black transition hover:bg-white">Send Message <ArrowRight size={17} /></button>
             </form>
           )}
         </div>

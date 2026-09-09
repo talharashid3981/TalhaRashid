@@ -6,6 +6,11 @@ import SpotifyCaseStudy from "@/components/sections/SpotifyCaseStudy";
 import FickleFlightCaseStudy from "@/components/sections/FickleFlightCaseStudy";
 import AIHCaseStudy from "@/components/sections/AIHCaseStudy";
 import RiyadhRepairCaseStudy from "@/components/sections/RiyadhRepairCaseStudy";
+import AIVirtualAssistantCaseStudy from "@/components/sections/AIVirtualAssistantCaseStudy";
+import BuildlyCaseStudy from "@/components/sections/BuildlyCaseStudy";
+import FlowCodifyCaseStudy from "@/components/sections/FlowCodifyCaseStudy";
+import SunsetToursCaseStudy from "@/components/sections/SunsetToursCaseStudy";
+import FamzooCaseStudy from "@/components/sections/FamzooCaseStudy";
 
 type ProjectPageProps = { params: Promise<{ slug: string }> };
 
@@ -24,5 +29,10 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   if (slug === "fickleflight") return <FickleFlightCaseStudy />;
   if (slug === "aih") return <AIHCaseStudy />;
   if (slug === "riyadh-repairing-service") return <RiyadhRepairCaseStudy />;
+  if (slug === "ai-virtual-assistant") return <AIVirtualAssistantCaseStudy />;
+  if (slug === "buildly") return <BuildlyCaseStudy />;
+  if (slug === "flowcodify") return <FlowCodifyCaseStudy />;
+  if (slug === "sunset-tours") return <SunsetToursCaseStudy />;
+  if (slug === "famzoo") return <FamzooCaseStudy />;
   notFound();
 }

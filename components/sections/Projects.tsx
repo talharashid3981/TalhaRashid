@@ -20,7 +20,7 @@ type Project = {
   isPrivate?: boolean;
 };
 
-const categories = ["All", "Business Website", "E-commerce", "Music", "Entertainment", "Travel", "Frontend Web Application", "Media Browsing"];
+const categories = ["All", "Travel Services", "Visual-to-Code", "Generative AI", "AI Application", "Business Website", "E-commerce", "Music", "Entertainment", "Travel", "Frontend Web Application", "Media Browsing"];
 
 const projects: Project[] = [
   {
@@ -114,12 +114,111 @@ const projects: Project[] = [
     repository: "",
     isPrivate: true,
   },
+  {
+    name: "AI Virtual Assistant",
+    slug: "ai-virtual-assistant",
+    category: "AI Application",
+    description: "A personalized, voice-enabled AI assistant that converts natural-language commands into conversational responses and browser actions.",
+    logo: "AI",
+    logoImage: "/openai.svg",
+    logoClass: "text-[#8b5cf6]",
+    technologies: [
+      { name: "React 19", icon: "/react.svg" },
+      { name: "Vite", icon: "/file.svg" },
+      { name: "Node.js", icon: "/nodejs.svg" },
+      { name: "Express.js", icon: "/javascript.svg" },
+      { name: "MongoDB", icon: "/mongodb.svg" },
+      { name: "Gemini AI", icon: "/gemini-icon.svg" },
+    ],
+    website: "https://virtualassistant-wvps.onrender.com/signin",
+    repository: "https://github.com/talharashid3981/virtualAssistant",
+  },
+  {
+    name: "Buildly",
+    slug: "buildly",
+    category: "Generative AI",
+    description: "An AI-powered website generation, editing, and publishing platform for turning natural-language ideas into responsive web experiences.",
+    logo: "B",
+    logoImage: "/openai.svg",
+    logoClass: "text-[#8b5cf6]",
+    technologies: [
+      { name: "React 19", icon: "/react.svg" },
+      { name: "Vite", icon: "/file.svg" },
+      { name: "Express 5", icon: "/javascript.svg" },
+      { name: "MongoDB", icon: "/mongodb.svg" },
+      { name: "Firebase Auth", icon: "/google.svg" },
+      { name: "OpenRouter AI", icon: "/openai.svg" },
+    ],
+    website: "https://buildly-peach.vercel.app",
+    repository: "https://github.com/talharashid3981/Buildly",
+  },
+  {
+    name: "FlowCodify",
+    slug: "flowcodify",
+    category: "Visual-to-Code",
+    description: "A visual-to-code workspace for turning prompts, wireframes, and flowcharts into editable, previewable code.",
+    logo: "F",
+    logoImage: "/flowcodify.svg",
+    logoClass: "text-[#22c55e]",
+    technologies: [
+      { name: "React 19", icon: "/react.svg" },
+      { name: "Vite", icon: "/file.svg" },
+      { name: "React Konva", icon: "/react.svg" },
+      { name: "Node.js", icon: "/nodejs.svg" },
+      { name: "MongoDB", icon: "/mongodb.svg" },
+      { name: "OpenAI API", icon: "/openai.svg" },
+    ],
+    website: "https://flowcodify.app/",
+    repository: "",
+    isPrivate: true,
+  },
+  {
+    name: "Sunset Tours & Cab Service",
+    slug: "sunset-tours",
+    category: "Travel Services",
+    description: "A responsive car-rental and travel enquiry platform with server-side booking notifications.",
+    logo: "S",
+    logoImage: "/sunset.svg",
+    logoClass: "text-[#f59e0b]",
+    technologies: [
+      { name: "Next.js 16", icon: "/next.svg" },
+      { name: "React 19", icon: "/react.svg" },
+      { name: "TypeScript", icon: "/file.svg" },
+      { name: "Framer Motion", icon: "/file.svg" },
+      { name: "Whapi Cloud", icon: "/globe.svg" },
+      { name: "JSON-LD", icon: "/globe.svg" },
+    ],
+    website: "https://sunsettours.pk/",
+    repository: "",
+    isPrivate: true,
+  },
+  {
+    name: "Famzoo",
+    slug: "famzoo",
+    category: "E-commerce",
+    description: "A full-stack family-focused e-commerce platform with catalog management, customer ordering, and protected operations workflows.",
+    logo: "F",
+    logoImage: "/famzoo.svg",
+    logoClass: "text-[#f97316]",
+    technologies: [
+      { name: "Next.js 16", icon: "/next.svg" },
+      { name: "React 19", icon: "/react.svg" },
+      { name: "TypeScript", icon: "/file.svg" },
+      { name: "Tailwind CSS", icon: "/css3.svg" },
+      { name: "MongoDB", icon: "/mongodb.svg" },
+      { name: "Cloudinary", icon: "/googlecloud.svg" },
+    ],
+    website: "https://famzoo.pk/",
+    repository: "",
+    isPrivate: true,
+  },
 ];
 
-const orderedProjects = [projects[4], projects[3], projects[2], projects[1], projects[0]];
+const orderedProjects = [projects[9], projects[8], projects[7], projects[6], projects[5], projects[4], projects[3], projects[2], projects[1], projects[0]];
 
 export default function Projects() {
   const [activeCategory, setActiveCategory] = useState("All");
+  const [showAllProjects, setShowAllProjects] = useState(false);
   const [headingProgress, setHeadingProgress] = useState(0);
   const headingRef = useRef<HTMLDivElement>(null);
 
@@ -147,6 +246,7 @@ export default function Projects() {
   };
 
   const filteredProjects = activeCategory === "All" ? orderedProjects : orderedProjects.filter((project) => project.category === activeCategory);
+  const visibleProjects = showAllProjects ? filteredProjects : filteredProjects.slice(0, 6);
 
   return (
     <section id="projects" className="relative z-10 w-full scroll-mt-24 px-4 pb-24 pt-16 sm:px-8 md:pt-24">
@@ -161,14 +261,14 @@ export default function Projects() {
         <div className="space-y-6">
           <div className="flex flex-wrap gap-2" role="tablist" aria-label="Project categories">
             {categories.map((category) => (
-              <button key={category} type="button" role="tab" aria-selected={activeCategory === category} onClick={() => setActiveCategory(category)} className={`project-filter rounded-lg border px-2.5 py-1 text-xs font-semibold transition-all ${activeCategory === category ? "project-filter-active border-white bg-white text-black" : "border-white/[0.16] bg-white/[0.035] text-zinc-300 hover:border-white/[0.35] hover:bg-white/[0.09] hover:text-white"}`}>
+              <button key={category} type="button" role="tab" aria-selected={activeCategory === category} onClick={() => { setActiveCategory(category); setShowAllProjects(false); }} className={`project-filter rounded-lg border px-2.5 py-1 text-xs font-semibold transition-all ${activeCategory === category ? "project-filter-active border-white bg-white text-black" : "border-white/[0.16] bg-white/[0.035] text-zinc-300 hover:border-white/[0.35] hover:bg-white/[0.09] hover:text-white"}`}>
                 {category}
               </button>
             ))}
           </div>
 
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {filteredProjects.map((project) => (
+            {visibleProjects.map((project) => (
               <article key={project.name} onMouseMove={handleCardMove} className="project-card pointer-glow-card group relative flex min-h-[290px] flex-col overflow-hidden rounded-2xl border border-[#212121] bg-[#0A0A0A] p-5 backdrop-blur-md">
                 <div className="relative z-10 flex items-center justify-between gap-3">
                   <span className="rounded-full border border-white/[0.2] px-2 py-0.5 text-[11px] font-semibold text-zinc-200">{project.category}</span>
@@ -197,7 +297,7 @@ export default function Projects() {
           </div>
 
           {filteredProjects.length === 0 && <p className="rounded-xl border border-white/[0.12] p-8 text-center text-sm text-zinc-400">No projects in this category yet.</p>}
-          <div className="flex justify-center pt-1"><button type="button" className="group inline-flex items-center gap-2 rounded-full border border-white/[0.16] bg-white/[0.03] px-6 py-2.5 text-sm font-semibold text-zinc-300 transition hover:border-purple-300/50 hover:bg-purple-500/10 hover:text-white"><span>See more</span><ChevronDown size={16} className="transition-transform group-hover:translate-y-0.5" /></button></div>
+          {filteredProjects.length > 6 && <div className="flex justify-center pt-1"><button type="button" aria-expanded={showAllProjects} onClick={() => setShowAllProjects((current) => !current)} className="group inline-flex items-center gap-2 rounded-full border border-white/[0.16] bg-white/[0.03] px-6 py-2.5 text-sm font-semibold text-zinc-300 transition hover:border-purple-300/50 hover:bg-purple-500/10 hover:text-white"><span>{showAllProjects ? "Show less" : "See more"}</span><ChevronDown size={16} className={`transition-transform group-hover:translate-y-0.5 ${showAllProjects ? "rotate-180" : ""}`} /></button></div>}
         </div>
       </div>
     </section>
