@@ -14,10 +14,7 @@ import {
   House,
   Menu,
   Moon,
-  Newspaper,
-  SlidersHorizontal,
   Sun,
-  Trophy,
   Wrench,
   X,
 } from "lucide-react";
@@ -43,16 +40,8 @@ const navItems = [
     href: "#certifications",
     icon: Award,
   },
-  { label: "Honours", id: "honours", href: "#honours", icon: Trophy },
   { label: "Skills", id: "skills", href: "#skills", icon: Wrench },
-  {
-    label: "Services",
-    id: "services",
-    href: "#services",
-    icon: SlidersHorizontal,
-  },
   { label: "FAQ", id: "faq", href: "#faq", icon: CircleHelp },
-  { label: "Blog", id: "blog", href: "#blog", icon: Newspaper },
   { label: "Contact", id: "contact", href: "#appointment", icon: CalendarDays },
 ];
 

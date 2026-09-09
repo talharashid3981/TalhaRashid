@@ -2,44 +2,52 @@
 
 import {
   BriefcaseBusiness,
+  BrainCircuit,
+  Code2,
   ChevronDown,
   CircleHelp,
+  Database,
   Globe2,
-  Smartphone,
-  Sparkles,
+  Workflow,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import type { MouseEvent } from "react";
 
 const questions = [
   {
-    question: "What is an Agentic AI Specialist?",
+    question: "What kind of full-stack applications do you build?",
     answer:
-      "An Agentic AI Specialist designs intelligent systems that can reason through tasks, use tools, and automate multi-step business workflows with the right level of human oversight.",
+      "I build responsive web applications, e-commerce platforms, dashboards, booking systems, media experiences, AI tools, and custom business workflows from frontend through backend delivery.",
     icon: BriefcaseBusiness,
   },
   {
-    question: "Can you integrate AI into my existing business systems?",
+    question: "Which technologies do you work with?",
     answer:
-      "Yes. I can connect AI workflows with your existing websites, CRMs, APIs, databases, and internal tools while keeping the integration practical and maintainable.",
-    icon: Sparkles,
+      "My main stack includes React, Next.js, Node.js, Express, MongoDB, Mongoose, TypeScript, JavaScript, Tailwind CSS, REST APIs, and secure server-side workflows.",
+    icon: Code2,
   },
   {
-    question: "Why should I choose Flutter for my app development?",
+    question: "Can you add AI features to an existing product?",
     answer:
-      "Flutter lets teams build polished iOS, Android, and web experiences from one codebase, helping maintain visual consistency and reduce duplicated development effort.",
-    icon: Smartphone,
+      "Yes. I can integrate AI assistants, prompt-to-code workflows, automation, document or content processing, and API-based model features into an existing website or product.",
+    icon: BrainCircuit,
   },
   {
-    question: "What is your typical project timeline?",
+    question: "How do you handle databases, authentication, and APIs?",
     answer:
-      "Timelines depend on scope. A focused MVP can take a few weeks, while a larger platform is planned in milestones covering discovery, development, testing, and launch.",
-    icon: BriefcaseBusiness,
+      "I design server-authoritative APIs with validated inputs, role-aware access, secure sessions, protected credentials, database models, error handling, and ownership checks where the product requires them.",
+    icon: Database,
   },
   {
-    question: "Do you offer post-launch support and maintenance?",
+    question: "What is your development process?",
     answer:
-      "Yes. I provide ongoing improvements, monitoring, bug fixes, performance work, and feature support after the initial product launch.",
+      "I start by clarifying the product goal and scope, then plan the architecture, build in focused milestones, test the main workflows, and refine the experience for responsive production use.",
+    icon: Workflow,
+  },
+  {
+    question: "Do you provide support after launch?",
+    answer:
+      "Yes. I can continue with bug fixes, feature improvements, performance work, integrations, content changes, and maintenance after the initial release.",
     icon: Globe2,
   },
 ];
@@ -119,10 +127,10 @@ export default function FAQ() {
             <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#DADBDB] text-zinc-200">
               <CircleHelp size={16} />
             </span>
-            Common Inquiries
+            Full-Stack Development
           </div>
           <h2 className="relative z-10 mt-4 font-display text-2xl font-semibold text-white sm:text-3xl">
-            Frequently Asked Questions
+            Questions About Working Together
           </h2>
           <div className="relative z-10 mt-8">
             {questions.map(({ question, answer, icon: Icon }, index) => {
