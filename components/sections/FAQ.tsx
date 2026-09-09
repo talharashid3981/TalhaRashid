@@ -127,7 +127,7 @@ export default function FAQ() {
             <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#DADBDB] text-zinc-200">
               <CircleHelp size={16} />
             </span>
-            Full-Stack Development
+            Common Inquiries
           </div>
           <h2 className="relative z-10 mt-4 font-display text-2xl font-semibold text-white sm:text-3xl">
             Questions About Working Together

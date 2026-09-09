@@ -20,14 +20,28 @@ type Project = {
   isPrivate?: boolean;
 };
 
-const categories = ["All", "Travel Services", "Visual-to-Code", "Generative AI", "AI Application", "Business Website", "E-commerce", "Music", "Entertainment", "Travel", "Frontend Web Application", "Media Browsing"];
+const categories = [
+  "All",
+  "Travel Services",
+  "Visual-to-Code",
+  "Generative AI",
+  "AI Application",
+  "Business Website",
+  "E-commerce",
+  "Music",
+  "Entertainment",
+  "Travel",
+  "Frontend Web Application",
+  "Media Browsing",
+];
 
 const projects: Project[] = [
   {
     name: "YouTube Clone",
     slug: "streamly",
     category: "Entertainment",
-    description: "A browser-based video discovery and watch experience with search, categories, recommendations, and YouTube API integration.",
+    description:
+      "A browser-based video discovery and watch experience with search, categories, recommendations, and YouTube API integration.",
     logo: "▶",
     logoClass: "text-[#ff0033]",
     technologies: [
@@ -44,7 +58,8 @@ const projects: Project[] = [
     name: "Spotify Clone",
     slug: "spotify-clone",
     category: "Music",
-    description: "A responsive music discovery interface with live track search and browser-based audio preview playback.",
+    description:
+      "A responsive music discovery interface with live track search and browser-based audio preview playback.",
     logo: "S",
     logoImage: "/spotify.svg",
     logoClass: "text-[#1ed760]",
@@ -62,7 +77,8 @@ const projects: Project[] = [
     name: "FickleFlight",
     slug: "fickleflight",
     category: "Travel",
-    description: "A responsive travel discovery interface for finding flights, hotels, destinations, holidays, and travel offers.",
+    description:
+      "A responsive travel discovery interface for finding flights, hotels, destinations, holidays, and travel offers.",
     logo: "F",
     logoImage: "/flight.svg",
     logoClass: "text-[#5d8cff]",
@@ -80,7 +96,8 @@ const projects: Project[] = [
     name: "AIH E-Commerce Platform",
     slug: "aih",
     category: "E-commerce",
-    description: "A full-stack footwear commerce platform with customer shopping, order management, inventory, and administrative operations.",
+    description:
+      "A full-stack footwear commerce platform with customer shopping, order management, inventory, and administrative operations.",
     logo: "A",
     logoImage: "/aih.svg",
     logoClass: "text-[#eb5b32]",
@@ -100,7 +117,8 @@ const projects: Project[] = [
     name: "Riyadh Repairing Service",
     slug: "riyadh-repairing-service",
     category: "Business Website",
-    description: "A bilingual service website for appliance repair discovery, customer enquiries, and local business visibility.",
+    description:
+      "A bilingual service website for appliance repair discovery, customer enquiries, and local business visibility.",
     logo: "R",
     logoImage: "/riyadreparingservice.svg",
     logoClass: "text-[#e7a62f]",
@@ -118,7 +136,8 @@ const projects: Project[] = [
     name: "AI Virtual Assistant",
     slug: "ai-virtual-assistant",
     category: "AI Application",
-    description: "A personalized, voice-enabled AI assistant that converts natural-language commands into conversational responses and browser actions.",
+    description:
+      "A personalized, voice-enabled AI assistant that converts natural-language commands into conversational responses and browser actions.",
     logo: "AI",
     logoImage: "/openai.svg",
     logoClass: "text-[#8b5cf6]",
@@ -137,7 +156,8 @@ const projects: Project[] = [
     name: "Buildly",
     slug: "buildly",
     category: "Generative AI",
-    description: "An AI-powered website generation, editing, and publishing platform for turning natural-language ideas into responsive web experiences.",
+    description:
+      "An AI-powered website generation, editing, and publishing platform for turning natural-language ideas into responsive web experiences.",
     logo: "B",
     logoImage: "/openai.svg",
     logoClass: "text-[#8b5cf6]",
@@ -156,7 +176,8 @@ const projects: Project[] = [
     name: "FlowCodify",
     slug: "flowcodify",
     category: "Visual-to-Code",
-    description: "A visual-to-code workspace for turning prompts, wireframes, and flowcharts into editable, previewable code.",
+    description:
+      "A visual-to-code workspace for turning prompts, wireframes, and flowcharts into editable, previewable code.",
     logo: "F",
     logoImage: "/flowcodify.svg",
     logoClass: "text-[#22c55e]",
@@ -176,7 +197,8 @@ const projects: Project[] = [
     name: "Sunset Tours & Cab Service",
     slug: "sunset-tours",
     category: "Travel Services",
-    description: "A responsive car-rental and travel enquiry platform with server-side booking notifications.",
+    description:
+      "A responsive car-rental and travel enquiry platform with server-side booking notifications.",
     logo: "S",
     logoImage: "/sunset.svg",
     logoClass: "text-[#f59e0b]",
@@ -196,7 +218,8 @@ const projects: Project[] = [
     name: "Famzoo",
     slug: "famzoo",
     category: "E-commerce",
-    description: "A full-stack family-focused e-commerce platform with catalog management, customer ordering, and protected operations workflows.",
+    description:
+      "A full-stack family-focused e-commerce platform with catalog management, customer ordering, and protected operations workflows.",
     logo: "F",
     logoImage: "/famzoo.svg",
     logoClass: "text-[#f97316]",
@@ -214,7 +237,18 @@ const projects: Project[] = [
   },
 ];
 
-const orderedProjects = [projects[9], projects[8], projects[7], projects[6], projects[5], projects[4], projects[3], projects[2], projects[1], projects[0]];
+const orderedProjects = [
+  projects[9],
+  projects[8],
+  projects[7],
+  projects[6],
+  projects[5],
+  projects[4],
+  projects[3],
+  projects[2],
+  projects[1],
+  projects[0],
+];
 
 export default function Projects() {
   const [activeCategory, setActiveCategory] = useState("All");
@@ -228,7 +262,9 @@ export default function Projects() {
       const bounds = headingRef.current.getBoundingClientRect();
       const start = window.innerHeight * 0.95;
       const end = window.innerHeight * 0.1;
-      setHeadingProgress(Math.max(0, Math.min(1, (start - bounds.top) / (start - end))));
+      setHeadingProgress(
+        Math.max(0, Math.min(1, (start - bounds.top) / (start - end))),
+      );
     };
     updateHeadingProgress();
     window.addEventListener("scroll", updateHeadingProgress, { passive: true });
@@ -241,27 +277,75 @@ export default function Projects() {
 
   const handleCardMove = (event: MouseEvent<HTMLElement>) => {
     const bounds = event.currentTarget.getBoundingClientRect();
-    event.currentTarget.style.setProperty("--mouse-x", `${event.clientX - bounds.left}px`);
-    event.currentTarget.style.setProperty("--mouse-y", `${event.clientY - bounds.top}px`);
+    event.currentTarget.style.setProperty(
+      "--mouse-x",
+      `${event.clientX - bounds.left}px`,
+    );
+    event.currentTarget.style.setProperty(
+      "--mouse-y",
+      `${event.clientY - bounds.top}px`,
+    );
   };
 
-  const filteredProjects = activeCategory === "All" ? orderedProjects : orderedProjects.filter((project) => project.category === activeCategory);
-  const visibleProjects = showAllProjects ? filteredProjects : filteredProjects.slice(0, 6);
+  const filteredProjects =
+    activeCategory === "All"
+      ? orderedProjects
+      : orderedProjects.filter(
+          (project) => project.category === activeCategory,
+        );
+  const visibleProjects = showAllProjects
+    ? filteredProjects
+    : filteredProjects.slice(0, 6);
 
   return (
-    <section id="projects" className="relative z-10 w-full scroll-mt-24 px-4 pb-24 pt-16 sm:px-8 md:pt-24">
+    <section
+      id="projects"
+      className="relative z-10 w-full scroll-mt-24 px-4 pb-24 pt-16 sm:px-8 md:pt-24"
+    >
       <div className="mx-auto max-w-5xl">
-        <div ref={headingRef} className="relative mb-6 flex w-full justify-center overflow-visible py-4 text-center md:mb-10">
+        <div
+          ref={headingRef}
+          className="relative mb-6 flex w-full justify-center overflow-visible py-4 text-center md:mb-10"
+        >
           <div className="relative -m-6 inline-flex items-center justify-center p-6 font-display text-[clamp(2rem,7.5vw,4.5rem)] font-black uppercase leading-none tracking-wider md:text-[clamp(4rem,7vw,7.5rem)] md:tracking-widest">
-            <span className="section-outline-title whitespace-nowrap" aria-hidden="true">Projects</span>
-            <span className="section-outline-title-active absolute inset-0 flex items-center justify-center whitespace-nowrap" aria-hidden="true" style={{ clipPath: `inset(0 ${35 - headingProgress * 35}% 0 ${headingProgress * 35}%)`, maskImage: `linear-gradient(to right, transparent 0%, transparent ${Math.max(0, headingProgress * 35 - 7)}%, black ${headingProgress * 35}%, black ${65 + headingProgress * 35}%, transparent ${Math.min(100, 72 + headingProgress * 35)}%, transparent 100%)`, WebkitMaskImage: `linear-gradient(to right, transparent 0%, transparent ${Math.max(0, headingProgress * 35 - 7)}%, black ${headingProgress * 35}%, black ${65 + headingProgress * 35}%, transparent ${Math.min(100, 72 + headingProgress * 35)}%, transparent 100%)` }}>Projects</span>
+            <span
+              className="section-outline-title whitespace-nowrap"
+              aria-hidden="true"
+            >
+              Projects
+            </span>
+            <span
+              className="section-outline-title-active absolute inset-0 flex items-center justify-center whitespace-nowrap"
+              aria-hidden="true"
+              style={{
+                clipPath: `inset(0 ${35 - headingProgress * 35}% 0 ${headingProgress * 35}%)`,
+                maskImage: `linear-gradient(to right, transparent 0%, transparent ${Math.max(0, headingProgress * 35 - 7)}%, black ${headingProgress * 35}%, black ${65 + headingProgress * 35}%, transparent ${Math.min(100, 72 + headingProgress * 35)}%, transparent 100%)`,
+                WebkitMaskImage: `linear-gradient(to right, transparent 0%, transparent ${Math.max(0, headingProgress * 35 - 7)}%, black ${headingProgress * 35}%, black ${65 + headingProgress * 35}%, transparent ${Math.min(100, 72 + headingProgress * 35)}%, transparent 100%)`,
+              }}
+            >
+              Projects
+            </span>
           </div>
         </div>
 
         <div className="space-y-6">
-          <div className="flex flex-wrap gap-2" role="tablist" aria-label="Project categories">
+          <div
+            className="flex flex-wrap gap-2"
+            role="tablist"
+            aria-label="Project categories"
+          >
             {categories.map((category) => (
-              <button key={category} type="button" role="tab" aria-selected={activeCategory === category} onClick={() => { setActiveCategory(category); setShowAllProjects(false); }} className={`project-filter rounded-lg border px-2.5 py-1 text-xs font-semibold transition-all ${activeCategory === category ? "project-filter-active border-white bg-white text-black" : "border-white/[0.16] bg-white/[0.035] text-zinc-300 hover:border-white/[0.35] hover:bg-white/[0.09] hover:text-white"}`}>
+              <button
+                key={category}
+                type="button"
+                role="tab"
+                aria-selected={activeCategory === category}
+                onClick={() => {
+                  setActiveCategory(category);
+                  setShowAllProjects(false);
+                }}
+                className={`project-filter rounded-lg border px-2.5 py-1 text-xs font-semibold transition-all ${activeCategory === category ? "project-filter-active border-white bg-white text-black" : "border-white/[0.16] bg-white/[0.035] text-zinc-300 hover:border-white/[0.35] hover:bg-white/[0.09] hover:text-white"}`}
+              >
                 {category}
               </button>
             ))}
@@ -269,35 +353,112 @@ export default function Projects() {
 
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {visibleProjects.map((project) => (
-              <article key={project.name} onMouseMove={handleCardMove} className="project-card pointer-glow-card group relative flex min-h-[290px] flex-col overflow-hidden rounded-2xl border border-[#212121] bg-[#0A0A0A] p-5 backdrop-blur-md">
+              <article
+                key={project.name}
+                onMouseMove={handleCardMove}
+                className="project-card pointer-glow-card group relative flex min-h-[290px] flex-col overflow-visible rounded-2xl border border-[#212121] bg-[#0A0A0A] p-5 backdrop-blur-md"
+              >
                 <div className="relative z-10 flex items-center justify-between gap-3">
-                  <span className="rounded-full border border-white/[0.2] px-2 py-0.5 text-[11px] font-semibold text-zinc-200">{project.category}</span>
+                  <span className="project-category-badge rounded-full border px-2 py-0.5 text-[11px] font-semibold">
+                    {project.category}
+                  </span>
                   <div className="flex items-center gap-1">
                     {project.technologies.map((technology) => (
-                      <span key={technology.name} title={technology.name} className="project-tech-icon relative h-6 w-6 rounded border border-white/[0.14] bg-white/[0.04] p-1">
-                        <Image src={technology.icon} alt={technology.name} fill sizes="24px" className="object-contain" />
+                      <span
+                        key={technology.name}
+                        className="project-tech-icon group/tech relative h-5.5 w-5.5 rounded border border-white/[0.14] bg-white/[0.04] p-1.5"
+                      >
+                        <Image
+                          src={technology.icon}
+                          alt={technology.name}
+                          fill
+                          sizes="18px"
+                          className="object-contain p-0.5"
+                        />
+                        <span className="project-tech-tooltip pointer-events-none absolute bottom-[calc(100%+9px)] left-1/2 z-40 -translate-x-1/2 translate-y-1 rounded-md border border-[#3f3f46] bg-[#18181b] px-2.5 py-1 text-[11px] font-medium whitespace-nowrap text-white opacity-0 shadow-lg transition-all duration-200 group-hover/tech:translate-y-0 group-hover/tech:opacity-100">
+                          {technology.name}
+                          <span className="absolute -bottom-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 border-b border-r border-[#3f3f46] bg-[#18181b]" />
+                        </span>
                       </span>
                     ))}
                   </div>
                 </div>
                 <div className="relative z-10 mt-5 flex items-center gap-2.5">
-                  <span className={`relative flex h-7 w-7 items-center justify-center rounded-lg bg-white p-1 text-lg font-bold ${project.logoClass}`}>{project.logoImage ? <Image src={project.logoImage} alt={`${project.name} logo`} fill sizes="28px" className="object-contain p-1" /> : project.logo}</span>
-                  <h2 className="font-display text-lg font-semibold text-white">{project.name}</h2>
+                  <span
+                    className={`relative flex h-9 w-9 items-center justify-center rounded-lg  text-lg font-bold ${project.logoClass}`}
+                  >
+                    {project.logoImage ? (
+                      <Image
+                        src={project.logoImage}
+                        alt={`${project.name} logo`}
+                        fill
+                        sizes="28px"
+                        className="object-contain p-1"
+                      />
+                    ) : (
+                      project.logo
+                    )}
+                  </span>
+                  <h2 className="font-display text-lg font-semibold text-white">
+                    {project.name}
+                  </h2>
                 </div>
-                <p className="relative z-10 mt-3 line-clamp-3 font-sans text-sm leading-relaxed text-zinc-400">{project.description}</p>
+                <p className="relative z-10 mt-3 line-clamp-3 font-sans text-sm leading-relaxed text-zinc-400">
+                  {project.description}
+                </p>
                 <div className="relative z-10 mt-auto flex flex-col gap-2 pt-5">
-                  <a href={`/project/${project.slug}`} className="project-case-study inline-flex items-center justify-center gap-2 rounded-lg border border-[#494949] bg-[#202020] px-3 py-2 text-xs font-semibold text-[#E5E5E5] transition hover:border-white hover:bg-white hover:text-black"><BookOpen size={14} /> Read Case Study</a>
+                  <a
+                    href={`/project/${project.slug}`}
+                    className="project-case-study inline-flex items-center justify-center gap-2 rounded-lg border border-[#494949] bg-[#202020] px-3 py-2 text-xs font-semibold text-[#E5E5E5] transition hover:border-white hover:bg-white hover:text-black"
+                  >
+                    <BookOpen size={14} /> Read Case Study
+                  </a>
                   <div className="grid grid-cols-2 gap-2">
-                    <a href={project.website} target="_blank" rel="noreferrer" className={`project-visit inline-flex items-center justify-center gap-2 rounded-lg border border-[#282828] bg-[#121212] px-2 py-2 text-xs font-semibold text-white transition hover:border-[#3a3a3a] hover:bg-white/10 hover:text-white ${project.isPrivate ? "col-span-2" : ""}`}><ExternalLink size={14} /> Live Demo</a>
-                    {!project.isPrivate && <a href={project.repository} target="_blank" rel="noreferrer" className="project-visit inline-flex items-center justify-center gap-2 rounded-lg border border-[#282828] bg-[#121212] px-2 py-2 text-xs font-semibold text-white transition hover:border-[#3a3a3a] hover:bg-white/10 hover:text-white"><GitBranch size={14} /> GitHub</a>}
+                    <a
+                      href={project.website}
+                      target="_blank"
+                      rel="noreferrer"
+                      className={`project-visit inline-flex items-center justify-center gap-2 rounded-lg border border-[#282828] bg-[#121212] px-2 py-2 text-xs font-semibold text-white transition hover:border-[#3a3a3a] hover:bg-white/10 hover:text-white ${project.isPrivate ? "col-span-2" : ""}`}
+                    >
+                      <ExternalLink size={14} /> Live Demo
+                    </a>
+                    {!project.isPrivate && (
+                      <a
+                        href={project.repository}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="project-visit inline-flex items-center justify-center gap-2 rounded-lg border border-[#282828] bg-[#121212] px-2 py-2 text-xs font-semibold text-white transition hover:border-[#3a3a3a] hover:bg-white/10 hover:text-white"
+                      >
+                        <GitBranch size={14} /> GitHub
+                      </a>
+                    )}
                   </div>
                 </div>
               </article>
             ))}
           </div>
 
-          {filteredProjects.length === 0 && <p className="rounded-xl border border-white/[0.12] p-8 text-center text-sm text-zinc-400">No projects in this category yet.</p>}
-          {filteredProjects.length > 6 && <div className="flex justify-center pt-1"><button type="button" aria-expanded={showAllProjects} onClick={() => setShowAllProjects((current) => !current)} className="group inline-flex items-center gap-2 rounded-full border border-white/[0.16] bg-white/[0.03] px-6 py-2.5 text-sm font-semibold text-zinc-300 transition hover:border-purple-300/50 hover:bg-purple-500/10 hover:text-white"><span>{showAllProjects ? "Show less" : "See more"}</span><ChevronDown size={16} className={`transition-transform group-hover:translate-y-0.5 ${showAllProjects ? "rotate-180" : ""}`} /></button></div>}
+          {filteredProjects.length === 0 && (
+            <p className="rounded-xl border border-white/[0.12] p-8 text-center text-sm text-zinc-400">
+              No projects in this category yet.
+            </p>
+          )}
+          {filteredProjects.length > 6 && (
+            <div className="flex justify-center pt-1">
+              <button
+                type="button"
+                aria-expanded={showAllProjects}
+                onClick={() => setShowAllProjects((current) => !current)}
+                className="group inline-flex items-center gap-2 rounded-full border border-white/[0.16] bg-white/[0.03] px-6 py-2.5 text-sm font-semibold text-zinc-300 transition hover:border-purple-300/50 hover:bg-purple-500/10 hover:text-white"
+              >
+                <span>{showAllProjects ? "Show less" : "See more"}</span>
+                <ChevronDown
+                  size={16}
+                  className={`transition-transform group-hover:translate-y-0.5 ${showAllProjects ? "rotate-180" : ""}`}
+                />
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </section>
