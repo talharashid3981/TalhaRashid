@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <title>Curly braces enclosing a three-node play triangle</title>
+  <desc>Braces drawn as 28-wide strokes, node triangle as a 58-wide stroke with r55 discs at the vertices and a crescent highlight on each node.</desc>
+
+  <!-- braces: left, its tick, right, its tick -->
+  <g fill="none" stroke="#000" stroke-width="28" stroke-linecap="butt" stroke-linejoin="round">
+    <path d="M190 118H165Q118 118 118 165V255Q118 300 75 300Q118 300 118 345V435Q118 482 165 482H190"/>
+    <path d="M30 300H80"/>
+    <path d="M410 118H435Q482 118 482 165V255Q482 300 525 300Q482 300 482 345V435Q482 482 435 482H410"/>
+    <path d="M570 300H520"/>
+  </g>
+
+  <!-- node triangle: bars, then the three nodes -->
+  <g fill="#0f3f8f">
+    <path d="M200 305L370 205L370 400Z" fill="none" stroke="#0f3f8f" stroke-width="58" stroke-linejoin="round"/>
+    <circle cx="200" cy="305" r="55"/>
+    <circle cx="370" cy="205" r="55"/>
+    <circle cx="370" cy="400" r="55"/>
+  </g>
+
+  <!-- highlights: white disc, then the node colour laid over it to leave a crescent -->
+  <g>
+    <circle cx="178" cy="283" r="22" fill="#fff"/><circle cx="186" cy="291" r="22" fill="#0f3f8f"/>
+    <circle cx="348" cy="183" r="22" fill="#fff"/><circle cx="356" cy="191" r="22" fill="#0f3f8f"/>
+    <circle cx="348" cy="378" r="22" fill="#fff"/><circle cx="356" cy="386" r="22" fill="#0f3f8f"/>
+  </g>
+</svg>

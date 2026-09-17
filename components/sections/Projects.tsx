@@ -30,9 +30,6 @@ const categories = [
   "E-commerce",
   "Music",
   "Entertainment",
-  "Travel",
-  "Frontend Web Application",
-  "Media Browsing",
 ];
 
 const projects: Project[] = [
@@ -76,7 +73,7 @@ const projects: Project[] = [
   {
     name: "FickleFlight",
     slug: "fickleflight",
-    category: "Travel",
+    category: "Travel Services",
     description:
       "A responsive travel discovery interface for finding flights, hotels, destinations, holidays, and travel offers.",
     logo: "F",
@@ -184,7 +181,7 @@ const projects: Project[] = [
     technologies: [
       { name: "React 19", icon: "/react.svg" },
       { name: "Vite", icon: "/file.svg" },
-      { name: "React Konva", icon: "/react.svg" },
+      { name: "React Konva", icon: "/konvajs-logo.svg" },
       { name: "Node.js", icon: "/nodejs.svg" },
       { name: "MongoDB", icon: "/mongodb.svg" },
       { name: "OpenAI API", icon: "/openai.svg" },
@@ -205,10 +202,10 @@ const projects: Project[] = [
     technologies: [
       { name: "Next.js 16", icon: "/next.svg" },
       { name: "React 19", icon: "/react.svg" },
-      { name: "TypeScript", icon: "/file.svg" },
-      { name: "Framer Motion", icon: "/file.svg" },
-      { name: "Whapi Cloud", icon: "/globe.svg" },
-      { name: "JSON-LD", icon: "/globe.svg" },
+      { name: "TypeScript", icon: "/typescript-logo.svg" },
+      { name: "Framer Motion", icon: "/framer-motion.svg" },
+      { name: "Whapi Cloud", icon: "/cloud-logo.svg" },
+      { name: "JSON-LD", icon: "/json-ld.svg" },
     ],
     website: "https://sunsettours.pk/",
     repository: "",
@@ -225,9 +222,8 @@ const projects: Project[] = [
     logoClass: "text-[#f97316]",
     technologies: [
       { name: "Next.js 16", icon: "/next.svg" },
-      { name: "React 19", icon: "/react.svg" },
-      { name: "TypeScript", icon: "/file.svg" },
-      { name: "Tailwind CSS", icon: "/css3.svg" },
+      { name: "TypeScript", icon: "/typescript-logo.svg" },
+      { name: "Tailwind CSS", icon: "/tailwind-logo.svg" },
       { name: "MongoDB", icon: "/mongodb.svg" },
       { name: "Cloudinary", icon: "/googlecloud.svg" },
     ],

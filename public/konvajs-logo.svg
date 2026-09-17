@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <circle cx="150" cy="150" r="150" fill="#1381c4"/>
+  <path fill="#fff" d="
+    M80 63
+    L133 62
+    L132 125
+    L163 68
+    L215 70
+    L190 133
+    L220 235
+    L165 238
+    L145 168
+    L131 190
+    L130 238
+    L80 237
+    Z"/>
+</svg>

@@ -10,6 +10,7 @@ import {
   Users,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import type { MouseEvent } from "react";
 
 const roles = [
@@ -147,7 +148,7 @@ function TypewriterRole() {
 }
 
 const heroDescription =
-  "Full-Stack Software Engineer specializing in Agentic AI automation and high-impact applications. Building modern, scalable, and intelligent systems that deliver exceptional user experiences.";
+  "Full-Stack Developer crafting fast, scalable, AI-powered web experiences with React, Next.js, Node.js, and modern databases—turning bold ideas into polished digital products.";
 
 function TypewriterDescription() {
   const [text, setText] = useState("");
@@ -190,6 +191,7 @@ function clearGlow(event: MouseEvent<HTMLElement>) {
 }
 
 function Overview() {
+  const prefersReducedMotion = useReducedMotion();
   const [hoveredMilestone, setHoveredMilestone] = useState<number | null>(null);
   const hovered = milestones.find(
     (milestone) => milestone.year === hoveredMilestone,
@@ -209,6 +211,8 @@ function Overview() {
     );
     setHoveredMilestone(nearest.year);
   };
+
+  let milestoneAnimationIndex = 0;
 
   return (
     <section
@@ -310,18 +314,24 @@ function Overview() {
                     strokeWidth="1"
                   />
                 ))}
-                <path
+                <motion.path
                   d="M8 280 C110 278 185 267 268 230 S425 152 518 112 S690 63 892 28 L892 280 Z"
                   className="chart-area-fill"
                   fill="#333333"
                   fillOpacity="0.58"
+                  initial={prefersReducedMotion ? false : { opacity: 0 }}
+                  whileInView={prefersReducedMotion ? undefined : { opacity: 1 }}
+                  transition={{ duration: 0.8, ease: "easeOut" }}
                 />
-                <path
+                <motion.path
                   d="M8 280 C110 278 185 267 268 230 S425 152 518 112 S690 63 892 28"
                   fill="none"
                   className="chart-line"
                   stroke="#d9d9df"
                   strokeWidth="1.5"
+                  initial={prefersReducedMotion ? false : { pathLength: 0, opacity: 0.4 }}
+                  whileInView={prefersReducedMotion ? undefined : { pathLength: 1, opacity: 1 }}
+                  transition={{ duration: 1.5, ease: "easeInOut" }}
                 />
                 {milestones.map((milestone) => {
                   const x = 20 + ((milestone.year - 2020) / 7) * 860;
@@ -345,11 +355,16 @@ function Overview() {
                       (technologyIndex -
                         (milestone.technologies.length - 1) / 2) * 25;
                     const y = 280 - (milestone.value / 100) * 252;
+                    const animationDelay = milestoneAnimationIndex++ * 0.08;
                     return (
-                      <g
+                      <motion.g
                         key={`${milestone.year}-${technology.name}`}
                         className="milestone-point"
                         aria-label={`${technology.name}, ${milestone.year}`}
+                        initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.35 }}
+                        whileInView={prefersReducedMotion ? undefined : { opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.42, delay: animationDelay, ease: [0.22, 1, 0.36, 1] }}
                       >
                         <circle
                           cx={x}
@@ -379,7 +394,7 @@ function Overview() {
                             {milestone.year}
                           </text>
                         )}
-                      </g>
+                      </motion.g>
                     );
                   }),
                 )}

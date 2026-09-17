@@ -9,7 +9,7 @@ const poppins = Poppins({ subsets: ["latin"], weight: ["400", "500", "600", "700
 
 export const metadata: Metadata = {
   title: "Talha Rashid | Full-Stack Software Engineer",
-  description: "Portfolio of Talha Rashid — Full-Stack Software Engineer specializing in Agentic AI, automation and high-impact applications.",
+  description: "Portfolio of Talha Rashid — Full-Stack Developer crafting fast, scalable, AI-powered web experiences with React, Next.js, Node.js, and modern databases.",
   icons: {
     icon: "/Logo.svg",
     shortcut: "/Logo.svg",
