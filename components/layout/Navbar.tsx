@@ -112,7 +112,7 @@ export default function Navbar() {
         aria-label={item.label}
         aria-current={isActive ? "page" : undefined}
         onClick={() => selectItem(item.id)}
-        className={`group relative flex h-9 shrink-0 items-center justify-center rounded-full text-[#A1A1A1] transition-[width,padding,color,background-color,box-shadow,border-color] duration-300 ease-out hover:text-[#E5E5E5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8b5cf6]/70 ${itemClasses}`}
+        className={`group relative flex h-8 shrink-0 items-center justify-center rounded-full text-[#A1A1A1] transition-[width,padding,color,background-color,box-shadow,border-color] duration-300 ease-out hover:text-[#E5E5E5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8b5cf6]/70 sm:h-9 ${itemClasses}`}
       >
         <Icon size={mobile ? 18 : 17} strokeWidth={1.8} className="shrink-0 transition-transform duration-300 group-hover:scale-105" />
         <span className={`whitespace-nowrap ${mobile ? "" : `text-[11px] font-semibold tracking-[-0.01em] transition-[max-width,opacity] duration-300 ${isActive ? "max-w-24 opacity-100" : "max-w-0 opacity-0 group-hover:max-w-24 group-hover:opacity-100"}`}`}>
@@ -184,8 +184,8 @@ export default function Navbar() {
         <button aria-label="Close navigation overlay" onClick={() => setMobileOpen(false)} className="fixed inset-0 top-0 bg-black/65 backdrop-blur-[2px] sm:hidden" />
       )}
 
-      <aside className={`fixed bottom-0 left-0 top-0 z-[60] flex w-[min(383px,calc(100vw-32px))] flex-col border-r border-white/[0.12] bg-[#0a0a0b] shadow-[20px_0_70px_rgba(95,35,190,0.2)] transition-transform duration-300 sm:hidden ${mobileOpen ? "translate-x-0" : "-translate-x-full"}`} aria-hidden={!mobileOpen}>
-        <div className="flex h-[86px] shrink-0 items-center justify-between border-b border-white/[0.1] px-5">
+      <aside className={`fixed inset-y-0 left-0 z-[60] flex   min-w-0 w-[min(300px,calc(100vw-32px))] max-w-[calc(100vw-16px)] flex-col overflow-x-hidden overflow-y-hidden border-r border-white/[0.12] bg-[#0a0a0b] shadow-[20px_0_70px_rgba(95,35,190,0.2)] transition-none sm:hidden ${mobileOpen ? "translate-x-0" : "-translate-x-full"}`} aria-hidden={!mobileOpen}>
+        <div className="flex h-20 shrink-0 items-center justify-between border-b border-white/[0.1] px-4">
           <div>
             <p className="font-display text-[14px] font-bold tracking-[-0.03em] text-white">Talha Rashid</p>
             <p className="text-[12px] text-zinc-400">Software Engineer</p>
@@ -194,12 +194,12 @@ export default function Navbar() {
             <ThemeIcon size={18} strokeWidth={1.8} />
           </button>
         </div>
-        <nav className="min-h-0 flex-1 space-y-2 overflow-y-auto px-3 py-5" aria-label="Mobile navigation">
+        <nav className="flex min-h-0 min-w-0 flex-1 flex-col space-y-1.5 overflow-hidden px-3 py-3" aria-label="Mobile navigation">
           {navLinks(true)}
         </nav>
-        <div className="shrink-0 space-y-3 border-t border-white/[0.1] p-4">
-          <a href="/Talha%20Rashid%20Resume.pdf" download="Talha-Rashid-Resume.pdf" className="flex h-11 w-full items-center justify-center rounded-full border border-white/[0.16] text-sm font-semibold text-white transition hover:border-white/[0.28] hover:bg-white/[0.06]">Download Resume</a>
-          <button type="button" className="h-11 w-full rounded-full bg-white text-sm font-medium text-[#16151a] transition hover:bg-zinc-200">Contact Us</button>
+        <div className="shrink-0 space-y-2 border-t border-white/[0.1] p-3">
+          <a href="/Talha%20Rashid%20Resume.pdf" download="Talha-Rashid-Resume.pdf" className="flex h-10 w-full items-center justify-center rounded-full border border-white/[0.16] text-sm font-semibold text-white transition hover:border-white/[0.28] hover:bg-white/[0.06]">Download Resume</a>
+          <button type="button" className="h-10 w-full rounded-full bg-white text-sm font-medium text-[#16151a] transition hover:bg-zinc-200">Contact Us</button>
         </div>
       </aside>
     </header>
