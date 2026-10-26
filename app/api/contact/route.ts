@@ -51,7 +51,24 @@ function buildEmail({ name, email, phone, message }: { name: string; email: stri
 
 export async function POST(request: Request) {
   try {
-    const body = (await request.json()) as ContactPayload;
+    let payload: unknown;
+    try {
+      payload = await request.json();
+    } catch {
+      return NextResponse.json(
+        { message: "Please submit the form again. The request was empty or invalid." },
+        { status: 400 },
+      );
+    }
+
+    if (typeof payload !== "object" || payload === null || Array.isArray(payload)) {
+      return NextResponse.json(
+        { message: "Please submit the form again. The request was invalid." },
+        { status: 400 },
+      );
+    }
+
+    const body = payload as ContactPayload;
     const name = clean(body.name, 100);
     const email = clean(body.email, 160).toLowerCase();
     const phone = clean(body.phone, 40);
@@ -63,15 +80,20 @@ export async function POST(request: Request) {
     const apiKey = process.env.BREVO_API_KEY?.trim();
     const senderEmail = process.env.BREVO_SENDER_EMAIL?.trim();
     const senderName = process.env.BREVO_SENDER_NAME?.trim() || "Portfolio Contact Form";
+    const recipientEmail = process.env.BREVO_TO_EMAIL?.trim() || senderEmail;
     if (!apiKey || !senderEmail) {
-      console.error("Brevo contact configuration is missing.");
+      const missingSettings = [
+        !apiKey && "BREVO_API_KEY",
+        !senderEmail && "BREVO_SENDER_EMAIL",
+      ].filter(Boolean);
+      console.error("Brevo contact configuration is missing:", missingSettings.join(", "));
       return NextResponse.json({ message: "Contact service is temporarily unavailable. Please try again later." }, { status: 503 });
     }
 
     const response = await fetch("https://api.brevo.com/v3/smtp/email", {
       method: "POST",
       headers: { accept: "application/json", "api-key": apiKey, "content-type": "application/json" },
-      body: JSON.stringify({ sender: { name: senderName, email: senderEmail }, to: [{ email: senderEmail, name: senderName }], replyTo: { email, name }, subject: `New portfolio contact message from ${name}`, htmlContent: buildEmail({ name, email, phone, message }) }),
+      body: JSON.stringify({ sender: { name: senderName, email: senderEmail }, to: [{ email: recipientEmail }], replyTo: { email, name }, subject: `New portfolio contact message from ${name}`, htmlContent: buildEmail({ name, email, phone, message }) }),
       cache: "no-store",
     });
 

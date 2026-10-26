@@ -150,7 +150,13 @@ export default function Appointment() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      const result = (await response.json()) as { message?: string };
+      const responseText = await response.text();
+      let result: { message?: string };
+      try {
+        result = JSON.parse(responseText) as { message?: string };
+      } catch {
+        throw new Error("The server returned an unexpected response. Please try again.");
+      }
       if (!response.ok) throw new Error(result.message || "Message could not be sent.");
       setSubmitted(true);
       form.reset();
