@@ -7,10 +7,12 @@ import Skills from "@/components/sections/Skills";
 import FAQ from "@/components/sections/FAQ";
 import Appointment from "@/components/sections/Appointment";
 import MotionReveal from "@/components/ui/MotionReveal";
+import PersonJsonLd from "@/components/PersonJsonLd";
 
 export default function Home() {
   return (
     <>
+      <PersonJsonLd />
       <MotionReveal><Hero /></MotionReveal>
       <MotionReveal delay={0.04}><Experience /></MotionReveal>
       <MotionReveal delay={0.06}><Projects /></MotionReveal>

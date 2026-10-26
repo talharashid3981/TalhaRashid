@@ -8,12 +8,46 @@ const orbitron = Orbitron({ subsets: ["latin"], variable: "--font-orbitron", dis
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "500", "600", "700"], variable: "--font-poppins", display: "swap" });
 
 export const metadata: Metadata = {
-  title: "Talha Rashid | Full-Stack Software Engineer",
-  description: "Portfolio of Talha Rashid — Full-Stack Developer crafting fast, scalable, AI-powered web experiences with React, Next.js, Node.js, and modern databases.",
+  metadataBase: new URL("https://www.talharashid.cv"),
+  title: {
+    default: "Talha Rashid | Full-Stack Next.js & MERN Developer, Lahore",
+    template: "%s | Talha Rashid",
+  },
+  description:
+    "Talha Rashid is a full-stack developer in Lahore, Pakistan, building fast, scalable web apps with Next.js, React, Node.js, MongoDB and AI integrations.",
+  alternates: {
+    canonical: "/",
+  },
+  authors: [{ name: "Talha Rashid", url: "https://www.talharashid.cv" }],
   icons: {
     icon: "/Logo.svg",
     shortcut: "/Logo.svg",
     apple: "/Logo.svg",
+  },
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName: "Talha Rashid",
+    title: "Talha Rashid | Full-Stack Developer in Lahore",
+    description:
+      "Full-stack developer building Next.js, MERN and AI-powered web applications.",
+    locale: "en_US",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Talha Rashid — Full-Stack Developer, Lahore",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    creator: "@talharashid3981",
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 

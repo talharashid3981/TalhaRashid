@@ -6,6 +6,7 @@ import Image from "next/image";
 import { createPortal } from "react-dom";
 import { useEffect, useRef, useState } from "react";
 import type { MouseEvent } from "react";
+import SectionHeading from "@/components/ui/SectionHeading";
 
 const certifications = [
   { issuer: "NAVTTC", issuerClass: "text-[#f1f1f1]", icon: "/NAVTTC.svg", date: "Dec 2024", title: "JavaScript Fullstack", id: "P-24-893512", image: "/forth_certificate.png", accent: "green" },
@@ -15,29 +16,10 @@ const certifications = [
 ];
 
 export default function Certifications() {
-  const [headingProgress, setHeadingProgress] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const isPreviewOpen = selectedIndex !== null;
-  const headingRef = useRef<HTMLDivElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    const updateHeadingProgress = () => {
-      if (!headingRef.current) return;
-      const bounds = headingRef.current.getBoundingClientRect();
-      const start = window.innerHeight * 0.95;
-      const end = window.innerHeight * 0.1;
-      setHeadingProgress(Math.max(0, Math.min(1, (start - bounds.top) / (start - end))));
-    };
-    updateHeadingProgress();
-    window.addEventListener("scroll", updateHeadingProgress, { passive: true });
-    window.addEventListener("resize", updateHeadingProgress);
-    return () => {
-      window.removeEventListener("scroll", updateHeadingProgress);
-      window.removeEventListener("resize", updateHeadingProgress);
-    };
-  }, []);
 
   useEffect(() => {
     if (!isPreviewOpen) return;
@@ -85,21 +67,7 @@ export default function Certifications() {
   return (
     <section id="certifications" aria-labelledby="certifications-heading" className="relative z-10 w-full scroll-mt-24 px-4 pb-24 pt-16 sm:px-8 md:pt-24">
       <div className="mx-auto max-w-5xl">
-        <div ref={headingRef} className="relative mb-8 flex w-full justify-center overflow-visible py-4 text-center md:mb-12">
-          <h2 id="certifications-heading" className="relative -m-6 inline-flex items-center justify-center p-6 font-display text-[clamp(2rem,7.5vw,4.5rem)] font-black uppercase leading-none tracking-wider md:text-[clamp(4rem,7vw,7.5rem)] md:tracking-widest">
-            <span className="section-outline-title whitespace-nowrap" aria-hidden="true">Certifications</span>
-            <span
-              className="section-outline-title-active absolute inset-0 flex items-center justify-center whitespace-nowrap"
-              aria-hidden="true"
-              style={{
-                clipPath: `inset(0 ${35 - headingProgress * 35}% 0 ${headingProgress * 35}%)`,
-                maskImage: `linear-gradient(to right, transparent 0%, transparent ${Math.max(0, headingProgress * 35 - 7)}%, black ${headingProgress * 35}%, black ${65 + headingProgress * 35}%, transparent ${Math.min(100, 72 + headingProgress * 35)}%, transparent 100%)`,
-                WebkitMaskImage: `linear-gradient(to right, transparent 0%, transparent ${Math.max(0, headingProgress * 35 - 7)}%, black ${headingProgress * 35}%, black ${65 + headingProgress * 35}%, transparent ${Math.min(100, 72 + headingProgress * 35)}%, transparent 100%)`,
-              }}
-            >Certifications</span>
-            <span className="sr-only">Certifications</span>
-          </h2>
-        </div>
+        <SectionHeading id="certifications-heading" title="Certifications" />
 
         <div className="grid gap-4 md:grid-cols-2">
           {certifications.map((certificate, index) => (
@@ -114,7 +82,7 @@ export default function Certifications() {
                   <span className="certificate-id mt-3 inline-flex items-center gap-1.5 rounded border border-white/[0.12] bg-white/[0.05] px-2 py-1 font-mono text-[10px] text-zinc-400"><Award size={12} />ID: {certificate.id}</span>
                 </div>
                 <button type="button" onClick={() => setSelectedIndex(index)} className="certificate-preview-button shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-background" aria-label={`Preview ${certificate.title} certificate from ${certificate.issuer}`}>
-                  <div className={`certificate-preview certificate-preview-real certificate-preview-${certificate.accent}`}><Image src={certificate.image} alt="" fill sizes="96px" className="certificate-image" />
+                  <div className={`certificate-preview certificate-preview-real certificate-preview-${certificate.accent}`}><Image src={certificate.image} alt={`${certificate.issuer} ${certificate.title} certificate, ${certificate.date}`} fill sizes="96px" className="certificate-image" />
                     <span className="certificate-preview-seal">✦</span>
                     <span className="certificate-preview-line w-3/4" />
                     <span className="certificate-preview-line w-1/2" />
@@ -155,7 +123,7 @@ export default function Certifications() {
                 <div className={`certificate-preview certificate-preview-real certificate-preview-large certificate-preview-${certifications[selectedIndex].accent}`}>
                   <Image
                     src={certifications[selectedIndex].image}
-                    alt={`${certifications[selectedIndex].title} certificate`}
+                    alt={`${certifications[selectedIndex].issuer} ${certifications[selectedIndex].title} certificate, ${certifications[selectedIndex].date}`}
                     fill
                     sizes="(max-width: 768px) 90vw, 540px"
                     className="certificate-image certificate-image-large"

@@ -1,3 +1,4 @@
+import CaseStudyTitle from "./CaseStudyTitle";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import {
@@ -94,7 +95,7 @@ export default function DigiHomeoCaseStudy() {
         <div className="mt-6 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-5">
           <div className="case-study-project-logo" aria-label="DigiHomeo logo"><span>◒</span></div>
           <div className="min-w-0 flex-1">
-            <h1>DigiHomeo</h1>
+            <CaseStudyTitle slug="digihomeo" />
             <p>AI-Powered Clinical Decision Support &amp; Medical Intelligence for Homeopathic Practitioners</p>
           </div>
         </div>

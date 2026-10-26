@@ -17,6 +17,7 @@ import {
 } from "libphonenumber-js";
 import { useEffect, useRef, useState } from "react";
 import type { FormEvent, MouseEvent } from "react";
+import SectionHeading from "@/components/ui/SectionHeading";
 
 const countryOptions = getCountries()
   .map((country) => {
@@ -48,7 +49,6 @@ function WhatsAppIcon({ size = 16 }: { size?: number }) {
 }
 
 export default function Appointment() {
-  const [headingProgress, setHeadingProgress] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
   const [formError, setFormError] = useState("");
@@ -56,7 +56,6 @@ export default function Appointment() {
     useState<CountryCode>("PK");
   const [countryMenuOpen, setCountryMenuOpen] = useState(false);
   const [countrySearch, setCountrySearch] = useState("");
-  const headingRef = useRef<HTMLDivElement>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
   const countryPickerRef = useRef<HTMLDivElement>(null);
   const countryButtonRef = useRef<HTMLButtonElement>(null);
@@ -93,25 +92,6 @@ export default function Appointment() {
       `${event.clientY - bounds.top}px`,
     );
   };
-
-  useEffect(() => {
-    const updateHeadingProgress = () => {
-      if (!headingRef.current) return;
-      const bounds = headingRef.current.getBoundingClientRect();
-      const start = window.innerHeight * 0.95;
-      const end = window.innerHeight * 0.1;
-      setHeadingProgress(
-        Math.max(0, Math.min(1, (start - bounds.top) / (start - end))),
-      );
-    };
-    updateHeadingProgress();
-    window.addEventListener("scroll", updateHeadingProgress, { passive: true });
-    window.addEventListener("resize", updateHeadingProgress);
-    return () => {
-      window.removeEventListener("scroll", updateHeadingProgress);
-      window.removeEventListener("resize", updateHeadingProgress);
-    };
-  }, []);
 
   useEffect(() => {
     if (!countryMenuOpen) return;
@@ -171,38 +151,16 @@ export default function Appointment() {
   return (
     <section
       id="appointment"
+      aria-labelledby="contact-heading"
       className="relative z-10 w-full scroll-mt-24 px-4 pb-24 pt-16 sm:px-8 md:pt-24"
     >
       <div className="mx-auto max-w-5xl">
-        <div
-          ref={headingRef}
-          className="relative mb-8 flex w-full justify-center overflow-visible py-4 text-center md:mb-12"
-        >
-          <div className="relative -m-6 inline-flex items-center justify-center p-6 font-display text-[clamp(2rem,7.5vw,4.5rem)] font-black uppercase leading-none tracking-wider md:text-[clamp(4rem,7vw,7.5rem)] md:tracking-widest">
-            <span
-              className="section-outline-title whitespace-nowrap"
-              aria-hidden="true"
-            >
-              Contact
-            </span>
-            <span
-              className="section-outline-title-active absolute inset-0 flex items-center justify-center whitespace-nowrap"
-              aria-hidden="true"
-              style={{
-                clipPath: `inset(0 ${35 - headingProgress * 35}% 0 ${headingProgress * 35}%)`,
-                maskImage: `linear-gradient(to right, transparent 0%, transparent ${Math.max(0, headingProgress * 35 - 7)}%, black ${headingProgress * 35}%, black ${65 + headingProgress * 35}%, transparent ${Math.min(100, 72 + headingProgress * 35)}%, transparent 100%)`,
-                WebkitMaskImage: `linear-gradient(to right, transparent 0%, transparent ${Math.max(0, headingProgress * 35 - 7)}%, black ${headingProgress * 35}%, black ${65 + headingProgress * 35}%, transparent ${Math.min(100, 72 + headingProgress * 35)}%, transparent 100%)`,
-              }}
-            >
-              Contact
-            </span>
-          </div>
-        </div>
+        <SectionHeading id="contact-heading" title="Contact" />
 
         <div className="mb-14 max-w-4xl">
-          <h2 className="font-display text-[clamp(1.75rem,4vw,2.75rem)] font-bold leading-tight text-white">
+          <h3 className="font-display text-[clamp(1.75rem,4vw,2.75rem)] font-bold leading-tight text-white">
             Let&apos;s connect and build something great
-          </h2>
+          </h3>
           <p className="mt-4 max-w-2xl font-sans text-base leading-relaxed text-zinc-400 sm:text-lg">
             Have a project idea, collaboration opportunity, or question? Send me
             a message with the details and I&apos;ll get back to you within 24

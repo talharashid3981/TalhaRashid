@@ -11,30 +11,47 @@ import BuildlyCaseStudy from "@/components/sections/BuildlyCaseStudy";
 import FlowCodifyCaseStudy from "@/components/sections/FlowCodifyCaseStudy";
 import SunsetToursCaseStudy from "@/components/sections/SunsetToursCaseStudy";
 import FamzooCaseStudy from "@/components/sections/FamzooCaseStudy";
+import { projects } from "@/lib/projects";
 
 type ProjectPageProps = { params: Promise<{ slug: string }> };
 
-const caseStudyTitles: Record<string, string> = {
-  digihomeo: "DigiHomeo",
-  streamly: "YouTube Clone",
-  "spotify-clone": "Spotify Clone",
-  fickleflight: "FickleFlight",
-  aih: "AIH E-Commerce Platform",
-  "riyadh-repairing-service": "Riyadh Repairing Service",
-  "ai-virtual-assistant": "AI Virtual Assistant",
-  buildly: "Buildly",
-  flowcodify: "FlowCodify",
-  "sunset-tours": "Sunset Tours & Cab Service",
-  famzoo: "Famzoo",
-};
+export function generateStaticParams() {
+  return projects.map(({ slug }) => ({ slug }));
+}
 
 export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const projectName = caseStudyTitles[slug] ?? "Project";
+  const project = projects.find((item) => item.slug === slug);
+  if (!project) notFound();
 
   return {
-    title: `${projectName} Case Study | Talha Rashid`,
-    description: `A case study of the ${projectName} project engineered by Talha Rashid.`,
+    title: `${project.name} Case Study: ${project.category}`,
+    description: project.seoDescription,
+    alternates: {
+      canonical: `/project/${slug}`,
+    },
+    openGraph: {
+      type: "article",
+      siteName: "Talha Rashid",
+      title: `${project.name} Case Study: ${project.category}`,
+      description: project.seoDescription,
+      url: `/project/${slug}`,
+      locale: "en_US",
+      images: [
+        {
+          url: "/opengraph-image",
+          width: 1200,
+          height: 630,
+          alt: `${project.name} case study by Talha Rashid`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${project.name} Case Study: ${project.category}`,
+      description: project.seoDescription,
+      images: ["/opengraph-image"],
+    },
   };
 }
 

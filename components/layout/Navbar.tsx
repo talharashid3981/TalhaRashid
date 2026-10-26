@@ -146,11 +146,10 @@ export default function Navbar() {
             width={36}
             height={36}
             className="h-8 w-8 object-contain sm:h-9 sm:w-9"
-            priority
           />
           <span className="flex flex-col whitespace-nowrap text-center font-display leading-none">
             <span className="text-[12px] font-bold tracking-[0.04em] text-white sm:text-[18px] sm:tracking-[0.05em]">Talha Rashid</span>
-            <span className="mt-1 font-sans text-[9px] font-medium tracking-[0.08em] text-zinc-400 sm:text-[10px]">Software Engineer</span>
+            <span className="mt-1 font-sans text-[9px] font-medium tracking-[0.08em] text-zinc-400 sm:text-[10px]">Full-Stack Developer</span>
           </span>
         </Link>
 
@@ -199,7 +198,7 @@ export default function Navbar() {
             <Image src={Logo} alt="" width={34} height={34} className="h-8 w-8 object-contain" />
             <div className="font-display leading-none">
               <p className="text-[14px] font-bold tracking-[0.02em] text-white">Talha Rashid</p>
-              <p className="mt-1 font-sans text-[10px] font-medium tracking-[0.08em] text-zinc-400">Software Engineer</p>
+              <p className="mt-1 font-sans text-[10px] font-medium tracking-[0.08em] text-zinc-400">Full-Stack Developer</p>
             </div>
           </div>
           <button type="button" aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`} onClick={toggleTheme} className="absolute right-4 flex h-9 w-9 items-center justify-center rounded-full text-[#9b7cff] transition-colors hover:bg-white/[0.07] hover:text-[#c9a8ff] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8b5cf6]/70">
@@ -210,7 +209,7 @@ export default function Navbar() {
           {navLinks(true)}
         </nav>
         <div className="shrink-0 space-y-2 border-t border-white/[0.1] p-4">
-          <a href="/Talha%20Rashid%20Resume.pdf" download="Talha-Rashid-Resume.pdf" className="mobile-resume-link flex h-10 w-full items-center justify-center rounded-full border border-white/[0.16] text-sm font-semibold text-white transition hover:border-white/[0.28] hover:bg-white/[0.06]">Download Resume</a>
+          <a href="/talha-rashid-resume.pdf" download="talha-rashid-resume.pdf" className="mobile-resume-link flex h-10 w-full items-center justify-center rounded-full border border-white/[0.16] text-sm font-semibold text-white transition hover:border-white/[0.28] hover:bg-white/[0.06]">Download Resume</a>
           <Link href="#appointment" onClick={() => selectItem("contact")} className="mobile-contact-link flex h-10 w-full items-center justify-center rounded-full border border-white/[0.16] bg-white text-sm font-medium text-[#16151a] transition hover:border-white/[0.28] hover:bg-zinc-200">Contact Me</Link>
         </div>
       </aside>

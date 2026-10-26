@@ -13,11 +13,7 @@ import { useEffect, useState } from "react";
 import type { MouseEvent } from "react";
 
 const roles = [
-  "Software Developer",
-  "AI Automation Expert",
-  "App Developer",
-  "Software Engineer",
-  "AI Engineer",
+  "Full-Stack Developer",
 ];
 const partners = [
   { name: "ShellShift", src: "/shellShift.svg", href: "https://shellshift.com/" },
@@ -88,6 +84,7 @@ const milestones = [
     ],
   },
 ];
+const toolTechnologies = milestones.flatMap((milestone) => milestone.technologies);
 const stats = [
   {
     title: "Total Impact",
@@ -396,25 +393,30 @@ function Overview() {
           </div>
           <div className="hero-tools-scroller relative z-10 mx-2 mt-4 overflow-hidden border-t border-white/[0.1] bg-[#101010] p-4">
             <div className="animate-marquee-tools  flex w-max flex-nowrap gap-2">
-              {[
-                ...milestones.flatMap((milestone) => milestone.technologies),
-                ...milestones.flatMap((milestone) => milestone.technologies),
-              ].map((technology, index) => (
-                <span
-                  key={`${technology.name}-${index}`}
-                  className="inline-flex shrink-0  items-center gap-1.5 rounded-full border border-white/[0.12] bg-white/[0.035] px-3 py-1.5 font-sans text-[11px] font-semibold text-zinc-400"
+              {[0, 1].map((copy) => (
+                <div
+                  key={copy}
+                  aria-hidden={copy === 1}
+                  className="flex shrink-0 flex-nowrap gap-2"
                 >
-                  <span className="relative h-4 w-4">
-                    <Image
-                      src={technology.src}
-                      alt=""
-                      fill
-                      className="object-contain"
-                      sizes="16px"
-                    />
-                  </span>
-                  {technology.name}
-                </span>
+                  {toolTechnologies.map((technology, index) => (
+                    <span
+                      key={`${technology.name}-${index}`}
+                      className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-white/[0.12] bg-white/[0.035] px-3 py-1.5 font-sans text-[11px] font-semibold text-zinc-400"
+                    >
+                      <span className="relative h-4 w-4">
+                        <Image
+                          src={technology.src}
+                          alt=""
+                          fill
+                          className="object-contain"
+                          sizes="16px"
+                        />
+                      </span>
+                      {technology.name}
+                    </span>
+                  ))}
+                </div>
               ))}
             </div>
           </div>
@@ -435,11 +437,11 @@ export default function Hero() {
                 <div className="absolute bottom-4 hidden h-36 w-60 rounded-full bg-black/20 blur-3xl lg:block" />
                 <Image
                   src="/Talharashid.png"
-                  alt="Talha Rashid"
+                  alt="Talha Rashid, Full-Stack Developer in Lahore"
                   width={372}
                   height={551}
                   className="profile-portrait relative h-full w-full object-contain drop-shadow-[0_12px_18px_rgba(0,0,0,0.28)]"
-                  priority
+                  preload
                 />
                 <div className="profile-ground-shadow hidden lg:block" aria-hidden="true" />
                 <div className="profile-bottom-fade" aria-hidden="true" />
@@ -449,8 +451,11 @@ export default function Hero() {
               <div className="hero-reveal inline-flex min-h-8 items-center rounded-full border border-violet-500/40 bg-violet-500/10 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-violet-400 sm:text-xs sm:tracking-widest">
                 <TypewriterRole />
               </div>
-              <h1 className="hero-reveal w-full font-display text-[clamp(2rem,8vw,4.75rem)] font-black leading-[0.98] tracking-[-0.06em] text-white sm:text-[clamp(2.65rem,6vw,4.75rem)] lg:whitespace-nowrap">
+              <h1 className="hero-reveal w-full font-display text-[clamp(2rem,8vw,4.75rem)] font-black leading-[0.98] tracking-[-0.06em] text-white sm:text-[clamp(2.65rem,6vw,4.75rem)]">
                 Talha Rashid
+                <span className="mt-2 block text-[0.52em] leading-tight tracking-[-0.03em]">
+                  Full-Stack Developer in Lahore, Pakistan
+                </span>
               </h1>
               <p className="min-h-[9rem] w-full max-w-2xl text-[clamp(0.98rem,2vw,1.25rem)] leading-relaxed text-zinc-400 sm:min-h-[8rem] lg:min-h-[7rem]">
                 <TypewriterDescription />
@@ -463,8 +468,8 @@ export default function Hero() {
                   <CalendarDays size={16} /> Contact Us
                 </a>
                 <a
-                  href="/Talha%20Rashid%20Resume.pdf"
-                  download="Talha-Rashid-Resume.pdf"
+                  href="/talha-rashid-resume.pdf"
+                  download="talha-rashid-resume.pdf"
                   className="inline-flex min-h-11 items-center gap-2 rounded-full border border-white/20 bg-white/[0.02] px-5 py-2.5 text-sm font-medium text-white transition hover:border-[#F5F5F5] hover:bg-[#F5F5F5] hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 >
                   <UserRound size={16} /> Download Resume
@@ -479,7 +484,11 @@ export default function Hero() {
             <div className="hero-trusted-scroller relative overflow-hidden before:absolute before:inset-y-0 before:left-0 before:z-10 before:w-16 before:bg-gradient-to-r before:from-[#0c0c0f] before:to-transparent after:absolute after:inset-y-0 after:right-0 after:z-10 after:w-16 after:bg-gradient-to-l after:from-[#0c0c0f] after:to-transparent">
               <div className="animate-marquee-trusted flex w-max items-center py-2.5">
                 {[0, 1].map((copy) => (
-                  <div key={copy} className="mr-5 flex shrink-0 items-center gap-5">
+                  <div
+                    key={copy}
+                    aria-hidden={copy === 1}
+                    className="mr-5 flex shrink-0 items-center gap-5"
+                  >
                     {partners.map((partner) => (
                       <a
                         key={`${partner.name}-${copy}`}
@@ -489,7 +498,13 @@ export default function Hero() {
                         className="flex shrink-0 items-center gap-3 rounded-xl border border-white/[0.12] bg-white/[0.035] px-4 py-2 transition hover:border-violet-400/40"
                       >
                         <span className="relative flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-white/20 bg-white p-1 shadow-sm">
-                          <Image src={partner.src} alt="" fill className="object-contain p-1" sizes="32px" />
+                          <Image
+                            src={partner.src}
+                            alt={copy === 0 ? partner.name : ""}
+                            fill
+                            className="object-contain p-1"
+                            sizes="32px"
+                          />
                         </span>
                         <span className="whitespace-nowrap text-xs font-semibold text-zinc-300 sm:text-sm">
                           {partner.name}

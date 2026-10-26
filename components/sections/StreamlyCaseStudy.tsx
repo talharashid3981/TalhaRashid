@@ -1,3 +1,4 @@
+import CaseStudyTitle from "./CaseStudyTitle";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, ChevronRight, Clock3, Code2, ExternalLink, GitBranch, Home, Lightbulb, Play, Search, Sparkles, TrendingUp } from "lucide-react";
 
@@ -39,7 +40,7 @@ export default function StreamlyCaseStudy() {
 
       <header className="case-study-header border-b pb-7 pt-8 sm:pt-10">
         <div className="flex flex-wrap items-center gap-2"><span className="case-study-badge case-study-badge-primary">Entertainment</span><span className="case-study-badge">Frontend Web Application</span></div>
-        <div className="mt-6 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-5"><div className="case-study-project-logo streamly-logo"><span>▶</span></div><div className="min-w-0 flex-1"><h1>YouTube Clone</h1><p>A browser-based video discovery and watch experience modeled on YouTube, built with a front-end-first architecture and API-driven content loading.</p></div></div>
+        <div className="mt-6 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-5"><div className="case-study-project-logo streamly-logo"><span>▶</span></div><div className="min-w-0 flex-1"><CaseStudyTitle slug="streamly" /><p>A browser-based video discovery and watch experience modeled on YouTube, built with a front-end-first architecture and API-driven content loading.</p></div></div>
         <div className="case-study-meta mt-7 grid gap-4 sm:grid-cols-[1fr_auto_auto] sm:items-center"><div><span>My Role:</span><strong>Frontend Developer &amp; UI Engineer</strong></div><div className="sm:border-l sm:pl-4"><span>Industry:</span><strong>Digital Media &amp; Content Discovery</strong></div><a className="case-study-primary-button" href="https://talharashid3981.github.io/youtube-clone/" target="_blank" rel="noreferrer">See Project in Action <ExternalLink size={14} /></a></div>
         <div className="case-study-tech-row"><span className="case-study-tech-label">Technologies:</span>{["HTML5", "CSS3", "JavaScript", "YouTube Data API v3", "Fetch API", "LocalStorage", "Lucide Icons", "YouTube iframe"].map((technology) => <span className="case-study-tech" key={technology}>{technology}</span>)}</div>
       </header>
