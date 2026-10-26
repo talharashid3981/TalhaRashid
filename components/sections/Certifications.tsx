@@ -3,6 +3,7 @@
 import { Award } from "lucide-react";
 import { ChevronLeft, ChevronRight, Download, ExternalLink, X } from "lucide-react";
 import Image from "next/image";
+import { createPortal } from "react-dom";
 import { useEffect, useRef, useState } from "react";
 import type { MouseEvent } from "react";
 
@@ -16,7 +17,10 @@ const certifications = [
 export default function Certifications() {
   const [headingProgress, setHeadingProgress] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const isPreviewOpen = selectedIndex !== null;
   const headingRef = useRef<HTMLDivElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const updateHeadingProgress = () => {
@@ -36,17 +40,41 @@ export default function Certifications() {
   }, []);
 
   useEffect(() => {
-    if (selectedIndex === null) return;
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setSelectedIndex(null);
-    };
-    document.addEventListener("keydown", closeOnEscape);
+    if (!isPreviewOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    const previouslyFocused = document.activeElement;
     document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", closeOnEscape);
-      document.body.style.overflow = "";
+    closeButtonRef.current?.focus();
+
+    const handleDialogKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setSelectedIndex(null);
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+      const focusableElements = dialogRef.current?.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      );
+      if (!focusableElements?.length) return;
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+      if (event.shiftKey && document.activeElement === firstElement) {
+        event.preventDefault();
+        lastElement.focus();
+      } else if (!event.shiftKey && document.activeElement === lastElement) {
+        event.preventDefault();
+        firstElement.focus();
+      }
     };
-  }, [selectedIndex]);
+    document.addEventListener("keydown", handleDialogKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleDialogKeyDown);
+      document.body.style.overflow = previousOverflow;
+      if (previouslyFocused instanceof HTMLElement) previouslyFocused.focus();
+    };
+  }, [isPreviewOpen]);
 
   const handleCardMove = (event: MouseEvent<HTMLElement>) => {
     const bounds = event.currentTarget.getBoundingClientRect();
@@ -55,10 +83,10 @@ export default function Certifications() {
   };
 
   return (
-    <section id="certifications" className="relative z-10 w-full scroll-mt-24 px-4 pb-24 pt-16 sm:px-8 md:pt-24">
+    <section id="certifications" aria-labelledby="certifications-heading" className="relative z-10 w-full scroll-mt-24 px-4 pb-24 pt-16 sm:px-8 md:pt-24">
       <div className="mx-auto max-w-5xl">
         <div ref={headingRef} className="relative mb-8 flex w-full justify-center overflow-visible py-4 text-center md:mb-12">
-          <div className="relative -m-6 inline-flex items-center justify-center p-6 font-display text-[clamp(2rem,7.5vw,4.5rem)] font-black uppercase leading-none tracking-wider md:text-[clamp(4rem,7vw,7.5rem)] md:tracking-widest">
+          <h2 id="certifications-heading" className="relative -m-6 inline-flex items-center justify-center p-6 font-display text-[clamp(2rem,7.5vw,4.5rem)] font-black uppercase leading-none tracking-wider md:text-[clamp(4rem,7vw,7.5rem)] md:tracking-widest">
             <span className="section-outline-title whitespace-nowrap" aria-hidden="true">Certifications</span>
             <span
               className="section-outline-title-active absolute inset-0 flex items-center justify-center whitespace-nowrap"
@@ -69,7 +97,8 @@ export default function Certifications() {
                 WebkitMaskImage: `linear-gradient(to right, transparent 0%, transparent ${Math.max(0, headingProgress * 35 - 7)}%, black ${headingProgress * 35}%, black ${65 + headingProgress * 35}%, transparent ${Math.min(100, 72 + headingProgress * 35)}%, transparent 100%)`,
               }}
             >Certifications</span>
-          </div>
+            <span className="sr-only">Certifications</span>
+          </h2>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">
@@ -81,11 +110,11 @@ export default function Certifications() {
                     <span className={`certificate-issuer inline-flex items-center gap-1.5 font-display text-[11px] font-bold tracking-wide ${certificate.issuerClass}`}><span className="relative h-4 w-4 shrink-0"><Image src={certificate.icon} alt="" fill sizes="16px" className="object-contain" /></span>{certificate.issuer}</span>
                     <span className="certificate-date rounded-full bg-white/[0.16] px-2 py-0.5 font-sans text-[10px] font-semibold text-zinc-300">{certificate.date}</span>
                   </div>
-                  <h2 className="mt-3 max-w-[270px] font-display text-lg font-semibold leading-tight text-white sm:text-xl">{certificate.title}</h2>
+                  <h3 className="mt-3 max-w-[270px] font-display text-lg font-semibold leading-tight text-white sm:text-xl">{certificate.title}</h3>
                   <span className="certificate-id mt-3 inline-flex items-center gap-1.5 rounded border border-white/[0.12] bg-white/[0.05] px-2 py-1 font-mono text-[10px] text-zinc-400"><Award size={12} />ID: {certificate.id}</span>
                 </div>
-                <button type="button" onClick={() => setSelectedIndex(index)} className="certificate-preview-button shrink-0" aria-label={`Open ${certificate.title} certificate`}>
-                  <div className={`certificate-preview certificate-preview-real certificate-preview-${certificate.accent}`}><Image src={certificate.image} alt={`${certificate.title} certificate`} fill sizes="96px" className="certificate-image" />
+                <button type="button" onClick={() => setSelectedIndex(index)} className="certificate-preview-button shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-background" aria-label={`Preview ${certificate.title} certificate from ${certificate.issuer}`}>
+                  <div className={`certificate-preview certificate-preview-real certificate-preview-${certificate.accent}`}><Image src={certificate.image} alt="" fill sizes="96px" className="certificate-image" />
                     <span className="certificate-preview-seal">✦</span>
                     <span className="certificate-preview-line w-3/4" />
                     <span className="certificate-preview-line w-1/2" />
@@ -99,36 +128,95 @@ export default function Certifications() {
         </div>
       </div>
 
-      {selectedIndex !== null && (
-        <div className="certificate-modal fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label="Certificate details" onClick={() => setSelectedIndex(null)}>
-          <div className="relative flex max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-white/[0.16] bg-[#1a1a1a] shadow-2xl md:flex-row" onClick={(event) => event.stopPropagation()}>
-            <button type="button" onClick={() => setSelectedIndex(null)} className="absolute right-4 top-4 z-20 rounded-full p-1 text-zinc-300 transition hover:bg-white/10 hover:text-white" aria-label="Close certificate details"><X size={18} /></button>
-            <div className="flex min-h-[280px] flex-1 items-center justify-center bg-[#f4f4f4] p-4 sm:p-6">
-              <div className={`certificate-preview certificate-preview-real certificate-preview-large certificate-preview-${certifications[selectedIndex].accent}`}><Image src={certifications[selectedIndex].image} alt={`${certifications[selectedIndex].title} certificate`} fill sizes="(max-width: 768px) 90vw, 540px" className="certificate-image certificate-image-large" />
-                <span className="certificate-preview-brand">{certifications[selectedIndex].issuer}</span>
-                <span className="certificate-preview-seal text-3xl">✦</span>
-                <strong>{certifications[selectedIndex].title}</strong>
-                <span className="certificate-preview-name">Talha Rashid</span>
-                <span className="certificate-preview-line w-3/4" /><span className="certificate-preview-line w-1/2" />
-                <span className="certificate-preview-signature" />
+      {selectedIndex !== null &&
+        createPortal(
+          <div
+            className="certificate-modal fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto overscroll-contain bg-black/80 p-3 pt-[max(1rem,env(safe-area-inset-top))] backdrop-blur-sm sm:items-center sm:p-4"
+            onClick={() => setSelectedIndex(null)}
+          >
+            <div
+              ref={dialogRef}
+              className="relative flex max-h-[calc(100dvh-2rem)] w-full max-w-4xl flex-col overflow-y-auto overscroll-contain rounded-2xl border border-white/[0.16] bg-[#1a1a1a] shadow-2xl md:max-h-[90dvh] md:flex-row md:overflow-hidden"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="certificate-dialog-title"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <button
+                ref={closeButtonRef}
+                type="button"
+                onClick={() => setSelectedIndex(null)}
+                className="certificate-modal-close sticky top-2 z-30 -mb-11 mr-2 mt-2 inline-flex h-11 w-11 shrink-0 self-end items-center justify-center rounded-full border border-white/25 bg-[#18181b] text-white shadow-lg transition hover:bg-[#303036] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1a] md:absolute md:right-3 md:top-3 md:mr-0 md:mt-0"
+                aria-label="Close certificate preview"
+              >
+                <X size={22} strokeWidth={2.5} />
+              </button>
+              <div className="flex min-h-[220px] w-full shrink-0 items-center justify-center bg-[#f4f4f4] px-3 pb-4 pt-3 sm:min-h-[280px] sm:p-6 md:min-h-[360px] md:flex-1">
+                <div className={`certificate-preview certificate-preview-real certificate-preview-large certificate-preview-${certifications[selectedIndex].accent}`}>
+                  <Image
+                    src={certifications[selectedIndex].image}
+                    alt={`${certifications[selectedIndex].title} certificate`}
+                    fill
+                    sizes="(max-width: 768px) 90vw, 540px"
+                    className="certificate-image certificate-image-large"
+                  />
+                </div>
+              </div>
+              <div className="flex w-full shrink-0 flex-col p-5 sm:p-6 md:w-[320px] md:shrink md:justify-center md:overflow-y-auto">
+                <p className="flex items-center gap-2 font-display text-xs font-bold tracking-wide text-white">
+                  <span className="relative h-5 w-5 shrink-0">
+                    <Image src={certifications[selectedIndex].icon} alt="" fill sizes="20px" className="object-contain" />
+                  </span>
+                  {certifications[selectedIndex].issuer}
+                </p>
+                <h2 id="certificate-dialog-title" className="mt-3 font-display text-xl font-semibold leading-tight text-white">
+                  {certifications[selectedIndex].title}
+                </h2>
+                <p className="mt-3 text-sm text-zinc-400">
+                  Issued in {certifications[selectedIndex].date}
+                </p>
+                <p className="mt-6 text-xs text-zinc-400">Credential ID</p>
+                <p className="mt-1 break-words rounded bg-white/[0.08] px-2 py-1.5 font-mono text-xs text-zinc-200">
+                  {certifications[selectedIndex].id}
+                </p>
+                <div className="mt-6 grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedIndex((selectedIndex - 1 + certifications.length) % certifications.length)}
+                    className="inline-flex min-h-11 items-center justify-center gap-1 rounded-lg border border-white/[0.18] px-3 py-2 text-xs font-semibold text-zinc-200 transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
+                    aria-label="Previous certificate"
+                  >
+                    <ChevronLeft size={14} />Prev
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedIndex((selectedIndex + 1) % certifications.length)}
+                    className="inline-flex min-h-11 items-center justify-center gap-1 rounded-lg border border-white/[0.18] px-3 py-2 text-xs font-semibold text-zinc-200 transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
+                    aria-label="Next certificate"
+                  >
+                    Next<ChevronRight size={14} />
+                  </button>
+                </div>
+                <a
+                  href={certifications[selectedIndex].image}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-2 inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-white px-3 py-2.5 text-sm font-semibold text-black transition hover:bg-zinc-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
+                >
+                  <ExternalLink size={15} />View Full Image
+                </a>
+                <a
+                  href={certifications[selectedIndex].image}
+                  download
+                  className="mt-2 inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-white/[0.08] px-3 py-2.5 text-sm font-semibold text-white transition hover:bg-white/[0.14] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
+                >
+                  <Download size={15} />Download
+                </a>
               </div>
             </div>
-            <div className="flex w-full flex-col justify-center p-6 md:w-[320px]">
-              <p className="flex items-center gap-2 font-display text-xs font-bold tracking-wide text-white"><span className="relative h-5 w-5"><Image src={certifications[selectedIndex].icon} alt="" fill sizes="20px" className="object-contain" /></span>{certifications[selectedIndex].issuer}</p>
-              <h2 className="mt-3 font-display text-xl font-semibold leading-tight text-white">{certifications[selectedIndex].title}</h2>
-              <p className="mt-3 text-sm text-zinc-400">Issued in {certifications[selectedIndex].date.replace("2023", "2023").replace("2020", "2020").replace("2024", "2024")}</p>
-              <p className="mt-6 text-xs text-zinc-400">Credential ID</p>
-              <p className="mt-1 rounded bg-white/[0.08] px-2 py-1.5 font-mono text-xs text-zinc-200">{certifications[selectedIndex].id}</p>
-              <div className="mt-8 grid grid-cols-2 gap-2">
-                <button type="button" onClick={() => setSelectedIndex((selectedIndex - 1 + certifications.length) % certifications.length)} className="inline-flex items-center justify-center gap-1 rounded-lg border border-white/[0.18] px-3 py-2 text-xs font-semibold text-zinc-200 transition hover:bg-white/10"><ChevronLeft size={14} />Prev</button>
-                <button type="button" onClick={() => setSelectedIndex((selectedIndex + 1) % certifications.length)} className="inline-flex items-center justify-center gap-1 rounded-lg border border-white/[0.18] px-3 py-2 text-xs font-semibold text-zinc-200 transition hover:bg-white/10">Next<ChevronRight size={14} /></button>
-              </div>
-              <a href={certifications[selectedIndex].image} target="_blank" rel="noreferrer" className="mt-2 inline-flex items-center justify-center gap-2 rounded-lg bg-white px-3 py-2.5 text-sm font-semibold text-black transition hover:bg-zinc-200"><ExternalLink size={15} />View Full Image</a>
-              <a href={certifications[selectedIndex].image} download className="mt-2 inline-flex items-center justify-center gap-2 rounded-lg bg-white/[0.08] px-3 py-2.5 text-sm font-semibold text-white transition hover:bg-white/[0.14]"><Download size={15} />Download</a>
-            </div>
-          </div>
-        </div>
-      )}
+          </div>,
+          document.body,
+        )}
     </section>
   );
 }

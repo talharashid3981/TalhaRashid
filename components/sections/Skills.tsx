@@ -40,10 +40,10 @@ export default function Skills() {
   }, []);
 
   return (
-    <section id="skills" className="relative z-10 w-full scroll-mt-24 px-4 pb-24 pt-16 sm:px-8 md:pt-24">
+    <section id="skills" aria-labelledby="skills-heading" className="relative z-10 w-full scroll-mt-24 px-4 pb-24 pt-16 sm:px-8 md:pt-24">
       <div className="mx-auto max-w-5xl">
         <div ref={headingRef} className="relative mb-8 flex w-full justify-center overflow-visible py-4 text-center md:mb-12">
-          <div className="relative -m-6 inline-flex items-center justify-center p-6 font-display text-[clamp(2rem,7.5vw,4.5rem)] font-black uppercase leading-none tracking-wider md:text-[clamp(4rem,7vw,7.5rem)] md:tracking-widest">
+          <h2 id="skills-heading" className="relative -m-6 inline-flex items-center justify-center p-6 font-display text-[clamp(2rem,7.5vw,4.5rem)] font-black uppercase leading-none tracking-wider md:text-[clamp(4rem,7vw,7.5rem)] md:tracking-widest">
             <span className="section-outline-title whitespace-nowrap" aria-hidden="true">Skills</span>
             <span
               className="section-outline-title-active absolute inset-0 flex items-center justify-center whitespace-nowrap"
@@ -54,7 +54,8 @@ export default function Skills() {
                 WebkitMaskImage: `linear-gradient(to right, transparent 0%, transparent ${Math.max(0, headingProgress * 35 - 7)}%, black ${headingProgress * 35}%, black ${65 + headingProgress * 35}%, transparent ${Math.min(100, 72 + headingProgress * 35)}%, transparent 100%)`,
               }}
             >Skills</span>
-          </div>
+            <span className="sr-only">Skills</span>
+          </h2>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">
@@ -65,9 +66,9 @@ export default function Skills() {
               event.currentTarget.style.setProperty("--mouse-y", `${event.clientY - bounds.top}px`);
             }} className="skills-card pointer-glow-card group relative overflow-hidden rounded-2xl border border-[#212121] bg-[#0A0A0A] p-4 sm:p-5">
               <div className="relative z-10">
-                <h2 className="flex items-center gap-2 font-display text-base font-semibold text-white sm:text-lg"><Icon size={19} strokeWidth={1.8} />{title}</h2>
+                <h3 className="flex min-w-0 items-center gap-2 font-display text-base font-semibold text-white sm:text-lg"><Icon className="shrink-0" size={19} strokeWidth={1.8} />{title}</h3>
                 <div className="mt-3 flex flex-wrap gap-2">
-                  {skills.map((skill) => <span key={skill} className="skill-pill inline-flex items-center rounded-full px-2.5 py-1 font-sans text-[11px] font-semibold text-zinc-200">{skill}</span>)}
+                  {skills.map((skill) => <span key={skill} className="skill-pill inline-flex items-center rounded-full px-2.5 py-1 font-sans text-[11px] font-semibold">{skill}</span>)}
                 </div>
               </div>
             </article>

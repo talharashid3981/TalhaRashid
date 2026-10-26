@@ -26,29 +26,45 @@ function BrandIcon({ name }: { name: "github" | "facebook" | "instagram" | "link
 export default function Footer() {
   return (
     <footer className="relative z-10 border-t border-white/[0.12] px-4 sm:px-8">
-      <div className="mx-auto max-w-7xl px-8">
+      <div className="mx-auto max-w-7xl">
         <div className="flex flex-col gap-6 py-10 md:flex-row md:items-center md:justify-between">
-          <Link href="#home" className="flex items-center gap-3" aria-label="Back to home">
-            <Image src={Logo} alt="" width={42} height={42} className="h-11 w-11 object-contain" />
-            <span>
+          <Link
+            href="#home"
+            className="footer-brand-link flex min-w-0 items-center gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-4 focus-visible:ring-offset-[#0c0c0f]"
+            aria-label="Back to home"
+          >
+            <Image
+              src={Logo}
+              alt=""
+              width={42}
+              height={42}
+              className="h-11 w-11 shrink-0 object-contain"
+            />
+            <span className="min-w-0">
               <span className="block font-display text-lg font-bold text-white">Talha Rashid</span>
-              <span className="block text-xs text-zinc-400">Software Engineer &amp; Agentic AI Specialist</span>
+              <span className="block text-xs leading-relaxed text-zinc-400">
+                Software Engineer &amp; Agentic AI Specialist
+              </span>
             </span>
           </Link>
-          <div className="flex flex-wrap items-center gap-2">
-            <a href="https://wa.me/923266095310" target="_blank" rel="noreferrer" aria-label="WhatsApp" className="footer-whatsapp-link inline-flex h-9 items-center gap-2 rounded-lg border border-white/[0.16] px-3 text-xs font-semibold text-zinc-300 transition hover:border-[#25D366]/50 hover:bg-[#25D366]/10 hover:text-white">
+          <div
+            role="group"
+            aria-label="Social and contact links"
+            className="flex flex-wrap items-center gap-2 md:justify-end"
+          >
+            <a href="https://wa.me/923266095310" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="footer-whatsapp-link inline-flex h-10 items-center gap-2 rounded-lg border px-3 text-xs font-semibold text-zinc-300 transition hover:border-[#25D366]/50 hover:bg-[#25D366]/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2">
               <Phone size={15} className="text-[#25D366]" /> WhatsApp
             </a>
             {socialLinks.map(({ label, tooltip, href, icon: Icon }) => (
-              <a key={label} href={href} aria-label={label} target={href.startsWith("http") ? "_blank" : undefined} rel={href.startsWith("http") ? "noreferrer" : undefined} className="footer-social-link group relative">
+              <a key={label} href={href} aria-label={label} target={href.startsWith("http") ? "_blank" : undefined} rel={href.startsWith("http") ? "noopener noreferrer" : undefined} className="footer-social-link group relative">
                 {typeof Icon === "string" ? <BrandIcon name={Icon as "github" | "facebook" | "instagram" | "linkedin" | "x" | "tiktok"} /> : <Icon size={16} strokeWidth={1.8} aria-hidden="true" />}
-                <span className="footer-social-tooltip pointer-events-none absolute bottom-[calc(100%+10px)] left-1/2 z-30 -translate-x-1/2 translate-y-1 rounded-lg border border-[#3f3f46] bg-[#18181b] px-3 py-1.5 text-xs font-medium whitespace-nowrap text-white opacity-0 shadow-lg transition-all duration-200 group-hover:translate-y-0 group-hover:opacity-100">{tooltip}<span className="absolute -bottom-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 border-b border-r border-[#3f3f46] bg-[#18181b]" /></span>
+                <span aria-hidden="true" className="footer-social-tooltip pointer-events-none absolute bottom-[calc(100%+10px)] left-1/2 z-30 -translate-x-1/2 translate-y-1 rounded-lg border border-[#3f3f46] bg-[#18181b] px-3 py-1.5 text-xs font-medium whitespace-nowrap text-white opacity-0 shadow-lg transition-all duration-200 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">{tooltip}<span className="absolute -bottom-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 border-b border-r border-[#3f3f46] bg-[#18181b]" /></span>
               </a>
             ))}
           </div>
         </div>
-        <div className="flex flex-col gap-4 border-t border-white/[0.1] py-6 text-xs text-zinc-400 md:flex-row md:items-center md:justify-between">
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2"><span>© 2026 Talha Rashid. All rights reserved.</span></div>
+        <div className="footer-divider flex flex-col gap-4 border-t border-white/[0.1] py-6 text-xs text-zinc-400 md:flex-row md:items-center md:justify-between">
+          <p>© {new Date().getFullYear()} Talha Rashid. All rights reserved.</p>
         </div>
       </div>
     </footer>

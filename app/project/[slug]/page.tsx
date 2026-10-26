@@ -14,10 +14,27 @@ import FamzooCaseStudy from "@/components/sections/FamzooCaseStudy";
 
 type ProjectPageProps = { params: Promise<{ slug: string }> };
 
-export function generateMetadata(): Metadata {
+const caseStudyTitles: Record<string, string> = {
+  digihomeo: "DigiHomeo",
+  streamly: "YouTube Clone",
+  "spotify-clone": "Spotify Clone",
+  fickleflight: "FickleFlight",
+  aih: "AIH E-Commerce Platform",
+  "riyadh-repairing-service": "Riyadh Repairing Service",
+  "ai-virtual-assistant": "AI Virtual Assistant",
+  buildly: "Buildly",
+  flowcodify: "FlowCodify",
+  "sunset-tours": "Sunset Tours & Cab Service",
+  famzoo: "Famzoo",
+};
+
+export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const projectName = caseStudyTitles[slug] ?? "Project";
+
   return {
-    title: "DigiHomeo Case Study | Talha Rashid",
-    description: "A case study of the DigiHomeo clinical decision support platform engineered by Talha Rashid.",
+    title: `${projectName} Case Study | Talha Rashid`,
+    description: `A case study of the ${projectName} project engineered by Talha Rashid.`,
   };
 }
 

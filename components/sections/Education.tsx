@@ -57,13 +57,18 @@ export default function Education() {
   };
 
   return (
-    <section id="education" className="relative z-10 w-full scroll-mt-24 px-4 pb-24 pt-16 sm:px-8 md:pt-24">
+    <section
+      id="education"
+      aria-labelledby="education-heading"
+      className="relative z-10 w-full scroll-mt-24 px-4 pb-24 pt-16 sm:px-8 md:pt-24"
+    >
       <div className="mx-auto max-w-5xl">
         <div ref={headingRef} className="relative mb-8 flex w-full justify-center overflow-visible py-4 text-center md:mb-12">
-          <div className="relative -m-6 inline-flex items-center justify-center p-6 font-display text-[clamp(2rem,7.5vw,4.5rem)] font-black uppercase leading-none tracking-wider md:text-[clamp(4rem,7vw,7.5rem)] md:tracking-widest">
+          <h2 id="education-heading" className="relative -m-6 inline-flex items-center justify-center p-6 font-display text-[clamp(2rem,7.5vw,4.5rem)] font-black uppercase leading-none tracking-wider md:text-[clamp(4rem,7vw,7.5rem)] md:tracking-widest">
             <span className="section-outline-title whitespace-nowrap" aria-hidden="true">Education</span>
             <span className="section-outline-title-active absolute inset-0 flex items-center justify-center whitespace-nowrap" aria-hidden="true" style={{ clipPath: `inset(0 ${35 - headingProgress * 35}% 0 ${headingProgress * 35}%)`, maskImage: `linear-gradient(to right, transparent 0%, transparent ${Math.max(0, headingProgress * 35 - 7)}%, black ${headingProgress * 35}%, black ${65 + headingProgress * 35}%, transparent ${Math.min(100, 72 + headingProgress * 35)}%, transparent 100%)`, WebkitMaskImage: `linear-gradient(to right, transparent 0%, transparent ${Math.max(0, headingProgress * 35 - 7)}%, black ${headingProgress * 35}%, black ${65 + headingProgress * 35}%, transparent ${Math.min(100, 72 + headingProgress * 35)}%, transparent 100%)` }}>Education</span>
-          </div>
+            <span className="sr-only">Education</span>
+          </h2>
         </div>
         <div className="space-y-4">
           {education.map((item) => (
@@ -71,9 +76,9 @@ export default function Education() {
               <div className="relative z-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
                 <div className="flex min-w-0 items-center gap-4">
                   <div className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white p-1"><Image src={item.logo} alt={`${item.institute} logo`} fill sizes="48px" className="object-contain p-1" /></div>
-                  <div className="min-w-0"><h2 className="font-display text-base font-semibold leading-snug text-white sm:text-xl">{item.degree}</h2><p className="mt-1 font-sans text-sm font-semibold text-zinc-300 sm:text-base">{item.institute}</p></div>
+                  <div className="min-w-0"><h3 className="font-display text-base font-semibold leading-snug text-white sm:text-xl">{item.degree}</h3><p className="mt-1 font-sans text-sm font-semibold text-zinc-300 sm:text-base">{item.institute}</p></div>
                 </div>
-                <div className="shrink-0 border-t border-white/[0.08] pt-3 text-left sm:border-t-0 sm:pt-0 sm:text-right"><p className="flex items-center gap-1.5 font-sans text-sm text-zinc-400 sm:justify-end"><CalendarDays size={14} />{item.period}</p><p className="mt-1 font-sans text-sm font-semibold text-zinc-200">{item.result}</p></div>
+                <div className="shrink-0 border-t border-white/[0.08] pt-3 text-left sm:border-t-0 sm:pt-0 sm:text-right"><p className="flex items-center gap-1.5 font-sans text-sm text-zinc-400 sm:justify-end"><CalendarDays size={14} className="shrink-0" />{item.period}</p><p className="mt-1 font-sans text-sm font-semibold text-zinc-200">{item.result}</p></div>
               </div>
             </article>
           ))}

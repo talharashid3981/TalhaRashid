@@ -91,6 +91,7 @@ export default function FAQ() {
   return (
     <section
       id="faq"
+      aria-labelledby="faq-heading"
       className="relative z-10 w-full scroll-mt-24 px-4 pb-24 pt-16 sm:px-8 md:pt-24"
     >
       <div className="mx-auto max-w-5xl">
@@ -98,7 +99,7 @@ export default function FAQ() {
           ref={headingRef}
           className="relative mb-8 flex w-full justify-center overflow-visible py-4 text-center md:mb-12"
         >
-          <div className="relative -m-6 inline-flex items-center justify-center p-6 font-display text-[clamp(2rem,7.5vw,4.5rem)] font-black uppercase leading-none tracking-wider md:text-[clamp(4rem,7vw,7.5rem)] md:tracking-widest">
+          <h2 id="faq-heading" className="relative -m-6 inline-flex items-center justify-center p-6 font-display text-[clamp(2rem,7.5vw,4.5rem)] font-black uppercase leading-none tracking-wider md:text-[clamp(4rem,7vw,7.5rem)] md:tracking-widest">
             <span
               className="section-outline-title whitespace-nowrap"
               aria-hidden="true"
@@ -116,7 +117,8 @@ export default function FAQ() {
             >
               FAQ
             </span>
-          </div>
+            <span className="sr-only">FAQ</span>
+          </h2>
         </div>
 
         <div
@@ -124,14 +126,14 @@ export default function FAQ() {
           className="faq-panel pointer-glow-card relative overflow-hidden rounded-2xl border border-[#212121] bg-[#0A0A0A] p-4 sm:p-5 md:p-6"
         >
           <div className="relative z-10 flex items-center gap-2 text-[11px] font-bold uppercase tracking-wide  text-zinc-300">
-            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#DADBDB] text-zinc-200">
+            <span className="faq-icon-badge flex h-7 w-7 items-center justify-center rounded-lg">
               <CircleHelp size={16} />
             </span>
             Common Inquiries
           </div>
-          <h2 className="relative z-10 mt-4 font-display text-2xl font-semibold text-white sm:text-3xl">
+          <h3 className="relative z-10 mt-4 font-display text-2xl font-semibold text-white sm:text-3xl">
             Questions About Working Together
-          </h2>
+          </h3>
           <div className="relative z-10 mt-8">
             {questions.map(({ question, answer, icon: Icon }, index) => {
               const isOpen = openIndex === index;
@@ -140,20 +142,28 @@ export default function FAQ() {
                   key={question}
                   className="faq-item border-b border-white/[0.1] last:border-b-0"
                 >
-                  <button
-                    type="button"
-                    aria-expanded={isOpen}
-                    onClick={() => setOpenIndex(isOpen ? null : index)}
-                    className="flex w-full items-center gap-3 py-4 text-left text-sm font-semibold text-zinc-200 transition hover:text-white sm:text-base"
-                  >
-                    <Icon size={16} className="shrink-0 text-zinc-400" />
-                    <span className="flex-1">{question}</span>
-                    <ChevronDown
-                      size={16}
-                      className={`shrink-0 text-zinc-400 transition-transform duration-200 ${isOpen ? "rotate-180 text-white" : ""}`}
-                    />
-                  </button>
+                  <h3 className="m-0">
+                    <button
+                      id={`faq-question-${index}`}
+                      type="button"
+                      aria-expanded={isOpen}
+                      aria-controls={`faq-answer-${index}`}
+                      onClick={() => setOpenIndex(isOpen ? null : index)}
+                      className="flex min-h-12 w-full items-center gap-3 py-4 text-left text-sm font-semibold text-zinc-200 transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-inset sm:text-base"
+                    >
+                      <Icon size={16} className="shrink-0 text-zinc-400" />
+                      <span className="flex-1">{question}</span>
+                      <ChevronDown
+                        size={16}
+                        className={`shrink-0 text-zinc-400 transition-transform duration-200 ${isOpen ? "rotate-180 text-white" : ""}`}
+                      />
+                    </button>
+                  </h3>
                   <div
+                    id={`faq-answer-${index}`}
+                    role="region"
+                    aria-labelledby={`faq-question-${index}`}
+                    aria-hidden={!isOpen}
                     className={`grid transition-[grid-template-rows,opacity] duration-250 ease-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
                   >
                     <div className="overflow-hidden">

@@ -123,7 +123,7 @@ export default function Navbar() {
   });
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 px-3 pt-4 sm:px-5">
+    <header className="site-navbar fixed inset-x-0 top-0 z-50 px-3 pt-4 sm:px-5">
       <div className="relative mx-auto flex h-[64px] max-w-[1000px] items-center rounded-full border border-[#2D2C30] bg-[#0D0B10] px-3 shadow-[0_18px_55px_rgba(101,45,220,0.25),0_2px_14px_rgba(0,0,0,0.45)] backdrop-blur-xl sm:h-[60px] sm:px-5">
         <button
           type="button"
@@ -137,7 +137,7 @@ export default function Navbar() {
 
         <Link
           href="/"
-          className="group flex shrink-0 items-center gap-2.5 max-sm:absolute max-sm:left-1/2 max-sm:-translate-x-1/2"
+          className="group flex shrink-0 items-center gap-2 max-sm:absolute max-sm:left-1/2 max-sm:-translate-x-1/2"
           aria-label="Talha Rashid home"
         >
           <Image
@@ -145,11 +145,12 @@ export default function Navbar() {
             alt=""
             width={36}
             height={36}
-            className="h-9 w-9 object-contain"
+            className="h-8 w-8 object-contain sm:h-9 sm:w-9"
             priority
           />
-          <span className="hidden whitespace-normal text-[16px] font-display font-bold tracking-[0.05em] text-white sm:block sm:text-[18px]">
-            Talha Rashid
+          <span className="flex flex-col whitespace-nowrap text-center font-display leading-none">
+            <span className="text-[12px] font-bold tracking-[0.04em] text-white sm:text-[18px] sm:tracking-[0.05em]">Talha Rashid</span>
+            <span className="mt-1 font-sans text-[9px] font-medium tracking-[0.08em] text-zinc-400 sm:text-[10px]">Software Engineer</span>
           </span>
         </Link>
 
@@ -184,22 +185,33 @@ export default function Navbar() {
         <button aria-label="Close navigation overlay" onClick={() => setMobileOpen(false)} className="fixed inset-0 top-0 bg-black/65 backdrop-blur-[2px] sm:hidden" />
       )}
 
-      <aside className={`fixed inset-y-0 left-0 z-[60] flex   min-w-0 w-[min(300px,calc(100vw-32px))] max-w-[calc(100vw-16px)] flex-col overflow-x-hidden overflow-y-hidden border-r border-white/[0.12] bg-[#0a0a0b] shadow-[20px_0_70px_rgba(95,35,190,0.2)] transition-none sm:hidden ${mobileOpen ? "translate-x-0" : "-translate-x-full"}`} aria-hidden={!mobileOpen}>
-        <div className="flex h-20 shrink-0 items-center justify-between border-b border-white/[0.1] px-4">
-          <div>
-            <p className="font-display text-[14px] font-bold tracking-[-0.03em] text-white">Talha Rashid</p>
-            <p className="text-[12px] text-zinc-400">Software Engineer</p>
+      <aside className={`fixed inset-x-0 top-0 z-[60] flex h-auto max-h-none w-full flex-col overflow-hidden border-b border-white/[0.12] bg-[#0a0a0b] shadow-[0_20px_70px_rgba(95,35,190,0.2)] transition-none sm:hidden ${mobileOpen ? "translate-y-0" : "-translate-y-full"}`} aria-hidden={!mobileOpen}>
+        <div className="relative flex h-20 shrink-0 items-center justify-center border-b border-white/[0.1] px-14">
+          <button
+            type="button"
+            aria-label="Close navigation menu"
+            onClick={() => setMobileOpen(false)}
+            className="absolute left-4 flex h-9 w-9 items-center justify-center rounded-full text-zinc-400 transition-colors hover:bg-white/[0.07] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8b5cf6]/70"
+          >
+            <X size={21} strokeWidth={1.7} />
+          </button>
+          <div className="flex items-center gap-2.5 text-center">
+            <Image src={Logo} alt="" width={34} height={34} className="h-8 w-8 object-contain" />
+            <div className="font-display leading-none">
+              <p className="text-[14px] font-bold tracking-[0.02em] text-white">Talha Rashid</p>
+              <p className="mt-1 font-sans text-[10px] font-medium tracking-[0.08em] text-zinc-400">Software Engineer</p>
+            </div>
           </div>
-          <button type="button" aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`} onClick={toggleTheme} className="flex h-9 w-9 items-center justify-center rounded-full text-[#9b7cff] hover:bg-white/[0.07]">
+          <button type="button" aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`} onClick={toggleTheme} className="absolute right-4 flex h-9 w-9 items-center justify-center rounded-full text-[#9b7cff] transition-colors hover:bg-white/[0.07] hover:text-[#c9a8ff] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8b5cf6]/70">
             <ThemeIcon size={18} strokeWidth={1.8} />
           </button>
         </div>
-        <nav className="flex min-h-0 min-w-0 flex-1 flex-col space-y-1.5 overflow-hidden px-3 py-3" aria-label="Mobile navigation">
+        <nav className="flex min-w-0 flex-col space-y-1.5 px-4 py-4" aria-label="Mobile navigation">
           {navLinks(true)}
         </nav>
-        <div className="shrink-0 space-y-2 border-t border-white/[0.1] p-3">
-          <a href="/Talha%20Rashid%20Resume.pdf" download="Talha-Rashid-Resume.pdf" className="flex h-10 w-full items-center justify-center rounded-full border border-white/[0.16] text-sm font-semibold text-white transition hover:border-white/[0.28] hover:bg-white/[0.06]">Download Resume</a>
-          <button type="button" className="h-10 w-full rounded-full bg-white text-sm font-medium text-[#16151a] transition hover:bg-zinc-200">Contact Us</button>
+        <div className="shrink-0 space-y-2 border-t border-white/[0.1] p-4">
+          <a href="/Talha%20Rashid%20Resume.pdf" download="Talha-Rashid-Resume.pdf" className="mobile-resume-link flex h-10 w-full items-center justify-center rounded-full border border-white/[0.16] text-sm font-semibold text-white transition hover:border-white/[0.28] hover:bg-white/[0.06]">Download Resume</a>
+          <Link href="#appointment" onClick={() => selectItem("contact")} className="mobile-contact-link flex h-10 w-full items-center justify-center rounded-full border border-white/[0.16] bg-white text-sm font-medium text-[#16151a] transition hover:border-white/[0.28] hover:bg-zinc-200">Contact Me</Link>
         </div>
       </aside>
     </header>

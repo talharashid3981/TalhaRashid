@@ -3,12 +3,35 @@
 import {
   ArrowRight,
   CheckCircle2,
+  ChevronDown,
+  Search,
   CircleCheck,
   Mail,
   UserRound,
 } from "lucide-react";
+import { getCountryData } from "countries-list";
+import {
+  getCountries,
+  getCountryCallingCode,
+  type CountryCode,
+} from "libphonenumber-js";
 import { useEffect, useRef, useState } from "react";
 import type { FormEvent, MouseEvent } from "react";
+
+const countryOptions = getCountries()
+  .map((country) => {
+    const countryData = getCountryData(country);
+    return {
+      country,
+      name: countryData.name,
+      dialCode: `+${getCountryCallingCode(country)}`,
+    };
+  })
+  .sort((left, right) => {
+    const leftName = left.name.toLowerCase();
+    const rightName = right.name.toLowerCase();
+    return leftName < rightName ? -1 : leftName > rightName ? 1 : 0;
+  });
 
 function WhatsAppIcon({ size = 16 }: { size?: number }) {
   return (
@@ -29,7 +52,35 @@ export default function Appointment() {
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
   const [formError, setFormError] = useState("");
+  const [selectedCountryCode, setSelectedCountryCode] =
+    useState<CountryCode>("PK");
+  const [countryMenuOpen, setCountryMenuOpen] = useState(false);
+  const [countrySearch, setCountrySearch] = useState("");
   const headingRef = useRef<HTMLDivElement>(null);
+  const messageRef = useRef<HTMLTextAreaElement>(null);
+  const countryPickerRef = useRef<HTMLDivElement>(null);
+  const countryButtonRef = useRef<HTMLButtonElement>(null);
+  const countrySearchRef = useRef<HTMLInputElement>(null);
+  const selectedCountry = countryOptions.find(
+    ({ country }) => country === selectedCountryCode,
+  )!;
+  const query = countrySearch.trim().toLowerCase();
+  const exactCountries = countryOptions.filter(
+    ({ country, name, dialCode }) =>
+      name.toLowerCase() === query ||
+      country.toLowerCase() === query ||
+      dialCode === (query.startsWith("+") ? query : `+${query}`),
+  );
+  const filteredCountries = !query
+    ? countryOptions
+    : exactCountries.length
+      ? exactCountries
+      : countryOptions.filter(
+          ({ country, name, dialCode }) =>
+            name.toLowerCase().includes(query) ||
+            country.toLowerCase().includes(query) ||
+            dialCode.includes(query.startsWith("+") ? query : `+${query}`),
+        );
 
   const handlePanelMove = (event: MouseEvent<HTMLElement>) => {
     const bounds = event.currentTarget.getBoundingClientRect();
@@ -62,21 +113,48 @@ export default function Appointment() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!countryMenuOpen) return;
+    countrySearchRef.current?.focus();
+    const closeOnOutsideClick = (event: globalThis.MouseEvent) => {
+      if (!countryPickerRef.current?.contains(event.target as Node)) {
+        setCountryMenuOpen(false);
+      }
+    };
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setCountryMenuOpen(false);
+        countryButtonRef.current?.focus();
+      }
+    };
+    document.addEventListener("mousedown", closeOnOutsideClick);
+    document.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.removeEventListener("mousedown", closeOnOutsideClick);
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [countryMenuOpen]);
+
   const submitAppointment = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
     setSending(true);
     setFormError("");
     try {
+      const formData = new FormData(form);
+      const localPhone = String(formData.get("phone") ?? "").trim();
+      const payload = Object.fromEntries(formData.entries());
+      payload.phone = `${selectedCountry.dialCode} ${localPhone}`;
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(Object.fromEntries(new FormData(form).entries())),
+        body: JSON.stringify(payload),
       });
       const result = (await response.json()) as { message?: string };
       if (!response.ok) throw new Error(result.message || "Message could not be sent.");
       setSubmitted(true);
       form.reset();
+      messageRef.current?.style.removeProperty("height");
     } catch (error) {
       setFormError(error instanceof Error ? error.message : "Message could not be sent. Please try again.");
     } finally {
@@ -140,7 +218,7 @@ export default function Appointment() {
             </p>
           </div>
           {submitted ? (
-            <div className="flex min-h-[330px] flex-col items-center justify-center px-6 text-center">
+            <div role="status" aria-live="polite" className="flex min-h-[330px] flex-col items-center justify-center px-6 text-center">
               <CheckCircle2 size={42} className="text-emerald-400" />
               <h3 className="mt-4 font-display text-xl font-semibold text-white">
                 Message received
@@ -160,10 +238,10 @@ export default function Appointment() {
           ) : (
             <form
               onSubmit={submitAppointment}
-              className="grid gap-5 p-5 sm:p-8"
+              className="grid min-w-0 gap-5 p-4 sm:p-8"
             >
-              <div className="grid gap-5 md:grid-cols-2">
-                <label className="space-y-2 text-sm font-semibold text-zinc-300">
+              <div className="grid min-w-0 gap-5 md:grid-cols-2">
+                <label className="min-w-0 space-y-2 text-sm font-semibold text-zinc-300">
                   <span className="flex items-center gap-2">
                     <UserRound size={15} />
                     Full Name
@@ -176,7 +254,7 @@ export default function Appointment() {
                     className="appointment-input"
                   />
                 </label>
-                <label className="space-y-2 text-sm font-semibold text-zinc-300">
+                <label className="min-w-0 space-y-2 text-sm font-semibold text-zinc-300">
                   <span className="flex items-center gap-2">
                     <Mail size={15} />
                     Email Address
@@ -190,42 +268,197 @@ export default function Appointment() {
                   />
                 </label>
               </div>
-              <label className="space-y-2 text-sm font-semibold text-zinc-300">
-                <span className="flex items-center gap-2 text-[#25D366]">
+              <div className="min-w-0 space-y-2 text-sm font-semibold text-zinc-300">
+                <label
+                  htmlFor="appointment-phone"
+                  className="flex items-center gap-2 text-[#25D366]"
+                >
                   <WhatsAppIcon size={17} />
                   <span className="text-zinc-300">WhatsApp Number</span>
-                </span>
-                <span className="flex gap-2">
-                  <span className="appointment-country flex h-12 w-24 items-center justify-center rounded-lg border border-[#494949] bg-[#202020] text-sm text-white">
-                    +92
+                </label>
+                <span className="appointment-phone-row">
+                  <div
+                    ref={countryPickerRef}
+                    className="relative min-w-0"
+                  >
+                    <button
+                      ref={countryButtonRef}
+                      type="button"
+                      aria-label={`Choose country. Selected: ${selectedCountry.name}`}
+                      aria-haspopup="listbox"
+                      aria-expanded={countryMenuOpen}
+                      aria-controls={
+                        countryMenuOpen
+                          ? "appointment-country-options"
+                          : undefined
+                      }
+                      onClick={() => setCountryMenuOpen((open) => !open)}
+                      className="appointment-country appointment-country-trigger flex h-12 w-full items-center gap-2 rounded-lg border border-[#494949] bg-[#202020] px-3 text-sm text-white"
+                    >
+                      <span
+                        aria-hidden="true"
+                        className={`appointment-country-flag fi fi-${selectedCountry.country.toLowerCase()}`}
+                      >
+                      </span>
+                      <span className="min-w-0 flex-1 truncate text-left">
+                        {selectedCountry.name}
+                      </span>
+                    </button>
+                    <ChevronDown
+                      size={16}
+                      aria-hidden="true"
+                      className={`pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-400 transition-transform ${countryMenuOpen ? "rotate-180" : ""}`}
+                    />
+                    {countryMenuOpen && (
+                      <div className="appointment-country-menu absolute left-0 top-[calc(100%+0.5rem)] z-30 w-[min(19rem,calc(100vw-4rem))] overflow-hidden rounded-xl border border-[#3f3f46] bg-[#111111] p-2 shadow-2xl">
+                        <div className="appointment-country-search-wrap relative">
+                          <Search
+                            size={16}
+                            aria-hidden="true"
+                            className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500"
+                          />
+                          <input
+                            ref={countrySearchRef}
+                            type="search"
+                            value={countrySearch}
+                            onChange={(event) =>
+                              setCountrySearch(event.target.value)
+                            }
+                            onKeyDown={(event) => {
+                              if (event.key === "ArrowDown") {
+                                event.preventDefault();
+                                countryPickerRef.current
+                                  ?.querySelector<HTMLButtonElement>(
+                                    '[role="option"]',
+                                  )
+                                  ?.focus();
+                              }
+                            }}
+                            aria-label="Search countries or calling codes"
+                            aria-controls="appointment-country-options"
+                            placeholder="Search country or code"
+                            className="appointment-country-search h-10 w-full rounded-lg border border-[#3f3f46] bg-[#1c1c1c] pl-9 pr-3 text-sm text-white outline-none placeholder:text-zinc-500 focus:border-violet-400 focus:ring-2 focus:ring-violet-400/20"
+                          />
+                        </div>
+                        <div
+                          id="appointment-country-options"
+                          role="listbox"
+                          aria-label="Countries"
+                          className="appointment-country-options mt-2 max-h-60 overflow-y-auto"
+                        >
+                          {filteredCountries.length ? (
+                            filteredCountries.map(
+                              ({ country, name }) => (
+                                <button
+                                  key={country}
+                                  type="button"
+                                  role="option"
+                                  aria-selected={
+                                    country === selectedCountryCode
+                                  }
+                                  onClick={() => {
+                                    setSelectedCountryCode(country);
+                                    setCountrySearch("");
+                                    setCountryMenuOpen(false);
+                                    countryButtonRef.current?.focus();
+                                  }}
+                                  onKeyDown={(event) => {
+                                    const options =
+                                      countryPickerRef.current?.querySelectorAll<HTMLButtonElement>(
+                                        '[role="option"]',
+                                      );
+                                    const index = Array.from(
+                                      options ?? [],
+                                    ).indexOf(event.currentTarget);
+                                    if (event.key === "ArrowDown") {
+                                      event.preventDefault();
+                                      options?.[
+                                        (index + 1) % (options.length || 1)
+                                      ]?.focus();
+                                    } else if (event.key === "ArrowUp") {
+                                      event.preventDefault();
+                                      if (index > 0) {
+                                        options?.[index - 1]?.focus();
+                                      } else {
+                                        countrySearchRef.current?.focus();
+                                      }
+                                    }
+                                  }}
+                                  className="appointment-country-option flex min-h-10 w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm text-zinc-200 transition-colors hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
+                                >
+                                  <span
+                                    aria-hidden="true"
+                                    className={`appointment-country-flag fi fi-${country.toLowerCase()}`}
+                                  />
+                                  <span className="flex-1">{name}</span>
+                                  {country === selectedCountryCode && (
+                                    <span className="text-xs text-violet-300">
+                                      Selected
+                                    </span>
+                                  )}
+                                </button>
+                              ),
+                            )
+                          ) : (
+                            <p className="px-3 py-5 text-center text-sm text-zinc-400">
+                              No countries found
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <span className="appointment-phone-field flex h-12 min-w-0 items-center gap-2 rounded-lg border border-[#494949] px-3">
+                    <span
+                      aria-hidden="true"
+                      className="appointment-phone-code shrink-0 border-r border-white/15 pr-2 text-sm font-semibold text-zinc-200"
+                    >
+                      {selectedCountry.dialCode}
+                    </span>
+                    <input
+                      id="appointment-phone"
+                      required
+                      name="phone"
+                      type="tel"
+                      autoComplete="tel-national"
+                      inputMode="tel"
+                      maxLength={32}
+                      placeholder="Phone number"
+                      className="appointment-phone-input min-w-0 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-zinc-500"
+                    />
                   </span>
                   <input
-                    required
-                    name="phone"
-                    type="tel"
-                    placeholder="3XX XXXXXXX"
-                    className="appointment-input min-w-0 flex-1"
+                    type="hidden"
+                    name="country"
+                    value={selectedCountryCode}
                   />
                 </span>
-              </label>
-              <label className="space-y-2 text-sm font-semibold text-zinc-300">
+              </div>
+              <label className="min-w-0 space-y-2 text-sm font-semibold text-zinc-300">
                 <span className="flex items-center gap-2">
                   <CircleCheck size={15} />
                   Message / Project Details
                 </span>
                 <textarea
                   required
+                  ref={messageRef}
                   name="message"
-                  rows={4}
+                  rows={5}
+                  maxLength={4000}
                   placeholder="Tell me about your project, idea, or question..."
-                  className="appointment-input bg-black min-h-12 resize-y"
+                  onInput={(event) => {
+                    const textarea = event.currentTarget;
+                    textarea.style.height = "auto";
+                    textarea.style.height = `${Math.max(textarea.scrollHeight, 144)}px`;
+                  }}
+                  className="appointment-input appointment-textarea bg-black"
                 />
               </label>
               {formError && <p role="alert" className="rounded-lg border border-red-400/30 bg-red-500/10 px-3 py-2 text-sm text-red-300">{formError}</p>}
               <button
                 type="submit"
                 disabled={sending}
-                className="appointment-submit mt-1 inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-[#d9d9d9] text-sm font-semibold text-black transition hover:bg-white"
+                className="appointment-submit mt-1 inline-flex h-12 w-full min-w-0 items-center justify-center gap-2 rounded-lg bg-[#d9d9d9] text-sm font-semibold text-black transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {sending ? "Sending..." : "Send Message"} {!sending && <ArrowRight size={17} />}
               </button>

@@ -68,6 +68,7 @@ export default function Experience() {
   return (
     <section
       id="experience"
+      aria-labelledby="experience-heading"
       className="relative z-10 w-full px-4 pb-20 pt-16 sm:px-8 md:pt-24"
     >
       <div className="mx-auto max-w-5xl">
@@ -75,7 +76,10 @@ export default function Experience() {
           ref={headingRef}
           className="relative mb-6 flex w-full justify-center overflow-visible py-4 text-center md:mb-10"
         >
-          <div className="relative -m-6 inline-flex items-center justify-center p-6 font-display text-[clamp(2rem,7.5vw,4.5rem)] font-black uppercase leading-none tracking-wider md:text-[clamp(4rem,7vw,7.5rem)] md:tracking-widest">
+          <h2
+            id="experience-heading"
+            className="relative -m-6 inline-flex items-center justify-center p-6 font-display text-[clamp(2rem,7.5vw,4.5rem)] font-black uppercase leading-none tracking-wider md:text-[clamp(4rem,7vw,7.5rem)] md:tracking-widest"
+          >
             <span
               className="section-outline-title whitespace-nowrap"
               aria-hidden="true"
@@ -93,7 +97,8 @@ export default function Experience() {
             >
               Experience
             </span>
-          </div>
+            <span className="sr-only">Experience</span>
+          </h2>
         </div>
         <div className="relative pl-7 sm:pl-14">
           <div className="experience-timeline-line absolute bottom-7 left-[7px] top-1 w-px bg-white/[0.14] sm:left-[35px]" />
@@ -121,10 +126,10 @@ export default function Experience() {
                             className="object-contain p-2"
                           />
                         </div>
-                        <div>
-                          <h2 className="font-display text-lg font-semibold leading-tight text-white sm:text-xl">
+                        <div className="min-w-0">
+                          <h3 className="font-display text-lg font-semibold leading-tight text-white sm:text-xl">
                             {experience.role}
-                          </h2>
+                          </h3>
                           <p className="mt-1 font-sans text-base font-semibold text-zinc-300">
                             {experience.company}
                           </p>
@@ -132,11 +137,11 @@ export default function Experience() {
                       </div>
                       <div className="space-y-1 text-left text-sm text-zinc-400 sm:text-right">
                         <p className="flex items-center gap-1.5 sm:justify-end">
-                          <CalendarDays size={14} />
+                          <CalendarDays size={14} className="shrink-0" />
                           {experience.period}
                         </p>
                         <p className="flex items-center gap-1.5 sm:justify-end">
-                          <MapPin size={14} />
+                          <MapPin size={14} className="shrink-0" />
                           {experience.place}
                         </p>
                       </div>
@@ -151,7 +156,13 @@ export default function Experience() {
                           className="experience-skill group relative inline-flex items-center gap-1.5 rounded-full border border-white/[0.14] bg-white/[0.035] px-3 py-1 font-sans text-[11px] font-semibold text-zinc-300"
                           title={skill}
                         >
-                          <span className="experience-skill-tooltip pointer-events-none absolute bottom-[calc(100%+10px)] left-1/2 z-30 -translate-x-1/2 translate-y-1 rounded-lg border border-[#3f3f46] bg-[#18181b] px-3 py-1.5 text-xs font-medium whitespace-nowrap text-white opacity-0 shadow-lg transition-all duration-200 group-hover:translate-y-0 group-hover:opacity-100">{skill}<span className="absolute -bottom-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 border-b border-r border-[#3f3f46] bg-[#18181b]" /></span>
+                          <span
+                            aria-hidden="true"
+                            className="experience-skill-tooltip pointer-events-none absolute bottom-[calc(100%+10px)] left-1/2 z-30 -translate-x-1/2 translate-y-1 rounded-lg border border-[#3f3f46] bg-[#18181b] px-3 py-1.5 text-xs font-medium whitespace-nowrap text-white opacity-0 shadow-lg transition-all duration-200 group-hover:translate-y-0 group-hover:opacity-100"
+                          >
+                            {skill}
+                            <span className="absolute -bottom-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 border-b border-r border-[#3f3f46] bg-[#18181b]" />
+                          </span>
                           <span className="experience-skill-icon relative h-4 w-4 shrink-0">
                             <Image
                               src={icon}

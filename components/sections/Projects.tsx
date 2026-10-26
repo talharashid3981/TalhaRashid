@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { BookOpen, ChevronDown, ExternalLink, GitBranch } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import type { MouseEvent } from "react";
@@ -296,14 +297,18 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="relative z-10 w-full scroll-mt-24 px-4 pb-24 pt-16 sm:px-8 md:pt-24"
+      aria-labelledby="projects-heading"
+      className="relative z-10 w-full min-w-0 scroll-mt-24 overflow-x-clip px-4 pb-24 pt-16 sm:px-8 md:pt-24"
     >
       <div className="mx-auto max-w-5xl">
         <div
           ref={headingRef}
           className="relative mb-6 flex w-full justify-center overflow-visible py-4 text-center md:mb-10"
         >
-          <div className="relative -m-6 inline-flex items-center justify-center p-6 font-display text-[clamp(2rem,7.5vw,4.5rem)] font-black uppercase leading-none tracking-wider md:text-[clamp(4rem,7vw,7.5rem)] md:tracking-widest">
+          <h2
+            id="projects-heading"
+            className="relative -m-6 inline-flex items-center justify-center p-6 font-display text-[clamp(2rem,7.5vw,4.5rem)] font-black uppercase leading-none tracking-wider md:text-[clamp(4rem,7vw,7.5rem)] md:tracking-widest"
+          >
             <span
               className="section-outline-title whitespace-nowrap"
               aria-hidden="true"
@@ -321,44 +326,44 @@ export default function Projects() {
             >
               Projects
             </span>
-          </div>
+            <span className="sr-only">Projects</span>
+          </h2>
         </div>
 
         <div className="space-y-6">
           <div
             className="flex flex-wrap gap-2"
-            role="tablist"
+            role="group"
             aria-label="Project categories"
           >
             {categories.map((category) => (
               <button
                 key={category}
                 type="button"
-                role="tab"
-                aria-selected={activeCategory === category}
+                aria-pressed={activeCategory === category}
                 onClick={() => {
                   setActiveCategory(category);
                   setShowAllProjects(false);
                 }}
-                className={`project-filter rounded-lg border px-2.5 py-1 text-xs font-semibold transition-all ${activeCategory === category ? "project-filter-active border-white bg-white text-black" : "border-white/[0.16] bg-white/[0.035] text-zinc-300 hover:border-white/[0.35] hover:bg-white/[0.09] hover:text-white"}`}
+                className={`project-filter min-h-10 rounded-lg border px-3 py-2 text-xs font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-background ${activeCategory === category ? "project-filter-active border-white bg-white text-black" : "border-white/[0.16] bg-white/[0.035] text-zinc-300 hover:border-white/[0.35] hover:bg-white/[0.09] hover:text-white"}`}
               >
                 {category}
               </button>
             ))}
           </div>
 
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div id="project-results" className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {visibleProjects.map((project) => (
               <article
                 key={project.name}
                 onMouseMove={handleCardMove}
                 className="project-card pointer-glow-card group relative flex min-h-[290px] flex-col overflow-visible rounded-2xl border border-[#212121] bg-[#0A0A0A] p-5 backdrop-blur-md"
               >
-                <div className="relative z-10 flex items-center justify-between gap-3">
-                  <span className="project-category-badge rounded-full border px-2 py-0.5 text-[11px] font-semibold">
+                <div className="relative z-10 flex min-w-0 flex-wrap items-center justify-between gap-2">
+                  <span className="project-category-badge min-w-0 max-w-full rounded-full border px-2 py-0.5 text-[11px] font-semibold">
                     {project.category}
                   </span>
-                  <div className="flex items-center gap-1">
+                  <div className="flex max-w-full shrink-0 items-center gap-1">
                     {project.technologies.map((technology) => (
                       <span
                         key={technology.name}
@@ -371,7 +376,10 @@ export default function Projects() {
                           sizes="18px"
                           className="object-contain p-0.5"
                         />
-                        <span className="project-tech-tooltip pointer-events-none absolute bottom-[calc(100%+9px)] left-1/2 z-40 -translate-x-1/2 translate-y-1 rounded-md border border-[#3f3f46] bg-[#18181b] px-2.5 py-1 text-[11px] font-medium whitespace-nowrap text-white opacity-0 shadow-lg transition-all duration-200 group-hover/tech:translate-y-0 group-hover/tech:opacity-100">
+                        <span
+                          aria-hidden="true"
+                          className="project-tech-tooltip pointer-events-none absolute bottom-[calc(100%+9px)] left-1/2 z-40 -translate-x-1/2 translate-y-1 rounded-md border border-[#3f3f46] bg-[#18181b] px-2.5 py-1 text-[11px] font-medium whitespace-nowrap text-white opacity-0 shadow-lg transition-all duration-200 group-hover/tech:translate-y-0 group-hover/tech:opacity-100"
+                        >
                           {technology.name}
                           <span className="absolute -bottom-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 border-b border-r border-[#3f3f46] bg-[#18181b]" />
                         </span>
@@ -395,26 +403,26 @@ export default function Projects() {
                       project.logo
                     )}
                   </span>
-                  <h2 className="font-display text-lg font-semibold text-white">
+                  <h3 className="min-w-0 break-words font-display text-lg font-semibold text-white">
                     {project.name}
-                  </h2>
+                  </h3>
                 </div>
                 <p className="relative z-10 mt-3 line-clamp-3 font-sans text-sm leading-relaxed text-zinc-400">
                   {project.description}
                 </p>
                 <div className="relative z-10 mt-auto flex flex-col gap-2 pt-5">
-                  <a
+                  <Link
                     href={`/project/${project.slug}`}
-                    className="project-case-study inline-flex items-center justify-center gap-2 rounded-lg border border-[#494949] bg-[#202020] px-3 py-2 text-xs font-semibold text-[#E5E5E5] transition hover:border-white hover:bg-white hover:text-black"
+                    className="project-case-study inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-[#494949] bg-[#202020] px-3 py-2 text-xs font-semibold text-[#E5E5E5] transition hover:border-white hover:bg-white hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                   >
                     <BookOpen size={14} /> Read Case Study
-                  </a>
+                  </Link>
                   <div className="grid grid-cols-2 gap-2">
                     <a
                       href={project.website}
                       target="_blank"
                       rel="noreferrer"
-                      className={`project-visit inline-flex items-center justify-center gap-2 rounded-lg border border-[#282828] bg-[#121212] px-2 py-2 text-xs font-semibold text-white transition hover:border-[#3a3a3a] hover:bg-white/10 hover:text-white ${project.isPrivate ? "col-span-2" : ""}`}
+                      className={`project-visit inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-[#282828] bg-[#121212] px-2 py-2 text-xs font-semibold text-white transition hover:border-[#3a3a3a] hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-background ${project.isPrivate ? "col-span-2" : ""}`}
                     >
                       <ExternalLink size={14} /> Live Demo
                     </a>
@@ -423,7 +431,7 @@ export default function Projects() {
                         href={project.repository}
                         target="_blank"
                         rel="noreferrer"
-                        className="project-visit inline-flex items-center justify-center gap-2 rounded-lg border border-[#282828] bg-[#121212] px-2 py-2 text-xs font-semibold text-white transition hover:border-[#3a3a3a] hover:bg-white/10 hover:text-white"
+                        className="project-visit inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-[#282828] bg-[#121212] px-2 py-2 text-xs font-semibold text-white transition hover:border-[#3a3a3a] hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                       >
                         <GitBranch size={14} /> GitHub
                       </a>
@@ -444,8 +452,9 @@ export default function Projects() {
               <button
                 type="button"
                 aria-expanded={showAllProjects}
+                aria-controls="project-results"
                 onClick={() => setShowAllProjects((current) => !current)}
-                className="group inline-flex items-center gap-2 rounded-full border border-white/[0.16] bg-white/[0.03] px-6 py-2.5 text-sm font-semibold text-zinc-300 transition hover:border-purple-300/50 hover:bg-purple-500/10 hover:text-white"
+                className="group inline-flex min-h-11 items-center gap-2 rounded-full border border-white/[0.16] bg-white/[0.03] px-6 py-2.5 text-sm font-semibold text-zinc-300 transition hover:border-purple-300/50 hover:bg-purple-500/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
                 <span>{showAllProjects ? "Show less" : "See more"}</span>
                 <ChevronDown

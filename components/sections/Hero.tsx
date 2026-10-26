@@ -10,7 +10,6 @@ import {
   Users,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
 import type { MouseEvent } from "react";
 
 const roles = [
@@ -191,7 +190,6 @@ function clearGlow(event: MouseEvent<HTMLElement>) {
 }
 
 function Overview() {
-  const prefersReducedMotion = useReducedMotion();
   const [hoveredMilestone, setHoveredMilestone] = useState<number | null>(null);
   const hovered = milestones.find(
     (milestone) => milestone.year === hoveredMilestone,
@@ -211,8 +209,6 @@ function Overview() {
     );
     setHoveredMilestone(nearest.year);
   };
-
-  let milestoneAnimationIndex = 0;
 
   return (
     <section
@@ -259,8 +255,16 @@ function Overview() {
             <p className="mt-1 font-sans text-sm text-zinc-400">
               Cumulative projects delivered and technologies adopted over time
             </p>
+            <p className="mt-2 font-sans text-[11px] text-zinc-500 sm:hidden">
+              Swipe the chart horizontally to explore all years
+            </p>
           </div>
-          <div className="relative z-10 overflow-x-auto overflow-y-hidden  pt-4">
+          <div
+            className="relative z-10 min-w-0 touch-pan-x overflow-x-auto overflow-y-hidden pt-4"
+            role="region"
+            aria-label="Career growth chart. Scroll horizontally to explore all milestones."
+            tabIndex={0}
+          >
             <div
               className="relative min-w-[680px]"
               onMouseMove={handleChartMove}
@@ -298,7 +302,7 @@ function Overview() {
               )}
               <svg
                 viewBox="0 0 900 300"
-                className="h-[330px] w-full "
+                className="aspect-[3/1] h-auto min-h-[220px] w-full"
                 role="img"
                 aria-label="Career growth from 2020 to 2026"
               >
@@ -314,24 +318,18 @@ function Overview() {
                     strokeWidth="1"
                   />
                 ))}
-                <motion.path
+                <path
                   d="M8 280 C110 278 185 267 268 230 S425 152 518 112 S690 63 892 28 L892 280 Z"
                   className="chart-area-fill"
                   fill="#333333"
                   fillOpacity="0.58"
-                  initial={prefersReducedMotion ? false : { opacity: 0 }}
-                  whileInView={prefersReducedMotion ? undefined : { opacity: 1 }}
-                  transition={{ duration: 0.8, ease: "easeOut" }}
                 />
-                <motion.path
+                <path
                   d="M8 280 C110 278 185 267 268 230 S425 152 518 112 S690 63 892 28"
                   fill="none"
                   className="chart-line"
                   stroke="#d9d9df"
                   strokeWidth="1.5"
-                  initial={prefersReducedMotion ? false : { pathLength: 0, opacity: 0.4 }}
-                  whileInView={prefersReducedMotion ? undefined : { pathLength: 1, opacity: 1 }}
-                  transition={{ duration: 1.5, ease: "easeInOut" }}
                 />
                 {milestones.map((milestone) => {
                   const x = 20 + ((milestone.year - 2020) / 7) * 860;
@@ -355,16 +353,11 @@ function Overview() {
                       (technologyIndex -
                         (milestone.technologies.length - 1) / 2) * 25;
                     const y = 280 - (milestone.value / 100) * 252;
-                    const animationDelay = milestoneAnimationIndex++ * 0.08;
                     return (
-                      <motion.g
+                      <g
                         key={`${milestone.year}-${technology.name}`}
                         className="milestone-point"
                         aria-label={`${technology.name}, ${milestone.year}`}
-                        initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.35 }}
-                        whileInView={prefersReducedMotion ? undefined : { opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.42, delay: animationDelay, ease: [0.22, 1, 0.36, 1] }}
                       >
                         <circle
                           cx={x}
@@ -394,7 +387,7 @@ function Overview() {
                             {milestone.year}
                           </text>
                         )}
-                      </motion.g>
+                      </g>
                     );
                   }),
                 )}
@@ -435,20 +428,20 @@ export default function Hero() {
   return (
     <div className="relative w-full">
       <section id="home" className="relative w-full scroll-mt-24">
-        <div className="relative z-10 mx-auto flex min-h-[calc(100svh-1rem)] w-full max-w-6xl flex-col justify-center px-5 pb-8 pt-28 sm:px-8 lg:min-h-[calc(100svh-4.5rem)] lg:pb-8 lg:pt-28">
-          <div className="flex w-full flex-col items-center gap-7 text-center lg:flex-row lg:items-center lg:justify-between lg:gap-10 lg:text-left">
+        <div className="relative z-10 mx-auto flex min-h-0 w-full max-w-6xl flex-col justify-center px-4 pb-6 pt-28 sm:px-8 lg:min-h-[calc(100svh-4.5rem)] lg:pb-8 lg:pt-28">
+          <div className="flex w-full min-w-0 flex-col items-center gap-5 text-center sm:gap-7 lg:flex-row lg:items-center lg:justify-between lg:gap-10 lg:text-left">
             <div className="hero-reveal flex w-full shrink-0 items-center justify-center lg:w-[38%]">
-              <div className="relative flex aspect-square w-[clamp(210px,37vw,375px)] items-end justify-center">
-                <div className="absolute bottom-4 h-36 w-60 rounded-full bg-black/20 blur-3xl" />
+              <div className="relative flex aspect-square w-[clamp(200px,58vw,330px)] items-end justify-center lg:w-[clamp(210px,37vw,375px)]">
+                <div className="absolute bottom-4 hidden h-36 w-60 rounded-full bg-black/20 blur-3xl lg:block" />
                 <Image
                   src="/Talharashid.png"
                   alt="Talha Rashid"
                   width={372}
                   height={551}
-                  className="profile-portrait relative h-full w-full object-contain drop-shadow-[0_24px_25px_rgba(0,0,0,0.75)]"
+                  className="profile-portrait relative h-full w-full object-contain drop-shadow-[0_12px_18px_rgba(0,0,0,0.28)]"
                   priority
                 />
-                <div className="profile-ground-shadow" aria-hidden="true" />
+                <div className="profile-ground-shadow hidden lg:block" aria-hidden="true" />
                 <div className="profile-bottom-fade" aria-hidden="true" />
               </div>
             </div>
@@ -456,30 +449,30 @@ export default function Hero() {
               <div className="hero-reveal inline-flex min-h-8 items-center rounded-full border border-violet-500/40 bg-violet-500/10 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-violet-400 sm:text-xs sm:tracking-widest">
                 <TypewriterRole />
               </div>
-              <h1 className="hero-reveal w-full font-display text-[clamp(2.65rem,6vw,4.75rem)] font-black leading-[0.94] tracking-[-0.06em] text-white lg:whitespace-nowrap">
+              <h1 className="hero-reveal w-full font-display text-[clamp(2rem,8vw,4.75rem)] font-black leading-[0.98] tracking-[-0.06em] text-white sm:text-[clamp(2.65rem,6vw,4.75rem)] lg:whitespace-nowrap">
                 Talha Rashid
               </h1>
-              <p className="h-[10.5rem] max-w-2xl overflow-hidden text-[clamp(0.98rem,2vw,1.25rem)] leading-relaxed text-zinc-400 sm:h-[8rem]">
+              <p className="min-h-[9rem] w-full max-w-2xl text-[clamp(0.98rem,2vw,1.25rem)] leading-relaxed text-zinc-400 sm:min-h-[8rem] lg:min-h-[7rem]">
                 <TypewriterDescription />
               </p>
-              <div className="hero-actions flex w-full flex-wrap items-center justify-center gap-2 pt-4 lg:justify-start">
+              <div className="hero-actions flex w-full flex-wrap items-center justify-center gap-3 pt-1 lg:justify-start">
                 <a
                   href="#appointment"
-                  className="inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-sm font-medium text-[#16151a] shadow-md shadow-white/10 transition hover:bg-[#F5F5F5] hover:text-black"
+                  className="inline-flex min-h-11 items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-medium text-[#16151a] shadow-md shadow-white/10 transition hover:bg-[#F5F5F5] hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 >
                   <CalendarDays size={16} /> Contact Us
                 </a>
                 <a
                   href="/Talha%20Rashid%20Resume.pdf"
                   download="Talha-Rashid-Resume.pdf"
-                  className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/[0.02] px-4 py-2 text-sm font-medium text-white transition hover:border-[#F5F5F5] hover:bg-[#F5F5F5] hover:text-black"
+                  className="inline-flex min-h-11 items-center gap-2 rounded-full border border-white/20 bg-white/[0.02] px-5 py-2.5 text-sm font-medium text-white transition hover:border-[#F5F5F5] hover:bg-[#F5F5F5] hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 >
                   <UserRound size={16} /> Download Resume
                 </a>
               </div>
             </div>
           </div>
-          <div className="hero-reveal mt-10 w-full overflow-hidden lg:mt-12">
+          <div className="hero-reveal mt-8 w-full overflow-hidden sm:mt-10 lg:mt-12">
             <div className="mb-3 text-center text-[10px] font-semibold uppercase tracking-[0.2em] text-zinc-500">
               Trusted By &amp; Certified Partner
             </div>
