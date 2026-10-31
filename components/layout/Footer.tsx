@@ -43,7 +43,7 @@ export default function Footer() {
             <span className="min-w-0">
               <span className="block font-display text-lg font-bold text-white">Talha Rashid</span>
               <span className="block text-xs leading-relaxed text-zinc-400">
-                Full-Stack Developer
+                Software Engineer &amp; Agentic AI Specialist
               </span>
             </span>
           </Link>

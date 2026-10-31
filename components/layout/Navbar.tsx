@@ -149,7 +149,7 @@ export default function Navbar() {
           />
           <span className="flex flex-col whitespace-nowrap text-center font-display leading-none">
             <span className="text-[12px] font-bold tracking-[0.04em] text-white sm:text-[18px] sm:tracking-[0.05em]">Talha Rashid</span>
-            <span className="mt-1 font-sans text-[9px] font-medium tracking-[0.08em] text-zinc-400 sm:text-[10px]">Full-Stack Developer</span>
+            <span className="mt-1 font-sans text-[9px] font-medium tracking-[0.08em] text-zinc-400 sm:text-[10px]">Software Engineer</span>
           </span>
         </Link>
 
@@ -198,7 +198,7 @@ export default function Navbar() {
             <Image src={Logo} alt="" width={34} height={34} className="h-8 w-8 object-contain" />
             <div className="font-display leading-none">
               <p className="text-[14px] font-bold tracking-[0.02em] text-white">Talha Rashid</p>
-              <p className="mt-1 font-sans text-[10px] font-medium tracking-[0.08em] text-zinc-400">Full-Stack Developer</p>
+              <p className="mt-1 font-sans text-[10px] font-medium tracking-[0.08em] text-zinc-400">Software Engineer</p>
             </div>
           </div>
           <button type="button" aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`} onClick={toggleTheme} className="absolute right-4 flex h-9 w-9 items-center justify-center rounded-full text-[#9b7cff] transition-colors hover:bg-white/[0.07] hover:text-[#c9a8ff] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8b5cf6]/70">

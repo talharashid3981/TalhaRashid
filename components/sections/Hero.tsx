@@ -13,7 +13,11 @@ import { useEffect, useState } from "react";
 import type { MouseEvent } from "react";
 
 const roles = [
-  "Full-Stack Developer",
+  "Software Developer",
+  "AI Automation Expert",
+  "App Developer",
+  "Software Engineer",
+  "AI Engineer",
 ];
 const partners = [
   { name: "ShellShift", src: "/shellShift.svg", href: "https://shellshift.com/" },
@@ -453,9 +457,6 @@ export default function Hero() {
               </div>
               <h1 className="hero-reveal w-full font-display text-[clamp(2rem,8vw,4.75rem)] font-black leading-[0.98] tracking-[-0.06em] text-white sm:text-[clamp(2.65rem,6vw,4.75rem)]">
                 Talha Rashid
-                <span className="mt-2 block text-[0.52em] leading-tight tracking-[-0.03em]">
-                  Full-Stack Developer in Lahore, Pakistan
-                </span>
               </h1>
               <p className="min-h-[9rem] w-full max-w-2xl text-[clamp(0.98rem,2vw,1.25rem)] leading-relaxed text-zinc-400 sm:min-h-[8rem] lg:min-h-[7rem]">
                 <TypewriterDescription />

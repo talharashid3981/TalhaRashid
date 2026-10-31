@@ -8,8 +8,6 @@ export default function CaseStudyTitle({ slug }: { slug: string }) {
   }
 
   return (
-    <h1>
-      {project.name}: {project.category} built with {project.mainStack}
-    </h1>
+    <h1>{project.name}</h1>
   );
 }

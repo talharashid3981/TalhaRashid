@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const alt =
-  "Talha Rashid — Full-Stack Developer, Lahore";
+  "Talha Rashid — Full-Stack Developer";
 export const size = {
   width: 1200,
   height: 630,
@@ -62,17 +62,7 @@ export default function OpenGraphImage() {
               lineHeight: 1.3,
             }}
           >
-            Full-Stack Developer, Lahore
-          </div>
-          <div
-            style={{
-              display: "flex",
-              marginTop: "20px",
-              color: "#a1a1aa",
-              fontSize: "23px",
-            }}
-          >
-            Web applications · AI-powered digital products
+            Full-Stack Developer
           </div>
         </div>
         <div
