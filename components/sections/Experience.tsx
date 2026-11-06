@@ -7,6 +7,38 @@ import SectionHeading from "@/components/ui/SectionHeading";
 
 const experiences = [
   {
+    role: "JavaScript Full Stack Developer",
+    company: "Digital Portal Official",
+    period: "2 Months · Present",
+    place: "Lahore, PK · On-site",
+    description:
+      "Working across frontend and backend development as a JavaScript full stack developer.",
+    logoImage: "/digital-portal-logo.svg",
+    logoFullBleed: true,
+    skills: [
+      ["JavaScript", "/javascript.svg"],
+      ["Next.js", "/nextdotjs.svg"],
+      ["MongoDB", "/mongodb.svg"],
+      ["PostgreSQL / SQL", "/postgresql.svg"],
+    ],
+  },
+  {
+    role: "MERN Stack Developer",
+    company: "Digitec Solutions",
+    period: "1 Month",
+    place: "Lahore, PK · On-site",
+    description:
+      "Updated and maintained existing MERN stack projects, enhancing their features and functionality rather than building a new project from scratch.",
+    logoImage: "/gear-circuit-logo.svg",
+    logoFullBleed: true,
+    skills: [
+      ["MongoDB", "/mongodb.svg"],
+      ["Express.js", "/javascript.svg"],
+      ["React.js", "/react.svg"],
+      ["Node.js", "/nodejs.svg"],
+    ],
+  },
+  {
     role: "Full-Stack Developer",
     company: "Sovricsoft",
     period: "1 Year · Present",
@@ -72,13 +104,15 @@ export default function Experience() {
                   <div className="relative z-10 flex flex-col gap-4">
                     <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                       <div className="flex items-center gap-4">
-                        <div className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white p-2">
+                        <div
+                          className={`relative flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${experience.logoFullBleed ? "overflow-hidden" : "bg-white p-2"}`}
+                        >
                           <Image
                             src={experience.logoImage}
                             alt={`${experience.company} logo`}
                             fill
                             sizes="48px"
-                            className="object-contain p-2"
+                            className={`object-contain ${experience.logoFullBleed ? "" : "p-2"}`}
                           />
                         </div>
                         <div className="min-w-0">
@@ -95,10 +129,12 @@ export default function Experience() {
                           <CalendarDays size={14} className="shrink-0" />
                           {experience.period}
                         </p>
-                        <p className="flex items-center gap-1.5 sm:justify-end">
-                          <MapPin size={14} className="shrink-0" />
-                          {experience.place}
-                        </p>
+                        {"place" in experience && (
+                          <p className="flex items-center gap-1.5 sm:justify-end">
+                            <MapPin size={14} className="shrink-0" />
+                            {experience.place}
+                          </p>
+                        )}
                       </div>
                     </div>
                     <p className="font-sans text-sm leading-relaxed text-zinc-400 sm:text-[15px]">

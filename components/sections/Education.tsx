@@ -10,7 +10,7 @@ const education = [
     degree: "Bachelor of Science (BS), Computer Science",
     institute: "University of the Punjab (PU)",
     period: "2022 – 2026",
-    result: "CGPA: 3.31 / 4",
+    result: "CGPA: 2.94 / 4",
     logo: "/pu_uni.jpg",
   },
   {
